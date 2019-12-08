@@ -2,9 +2,9 @@ import React from 'react';
 import { ThemeProvider, createGlobalStyle } from 'styled-components';
 import { theme } from '../theme';
 import Layout from './Layout';
-import Router from './Router';
 
 const GlobalStyle = createGlobalStyle`
+    @import url('https://fonts.googleapis.com/css?family=Roboto:400,500,700&display=swap');
     *,
     *::before,
     *::after {
@@ -19,7 +19,7 @@ const GlobalStyle = createGlobalStyle`
     }
 
     body {
-        /* font-family: 'Roboto', sans-serif; */
+        font-family: 'Roboto', sans-serif;
         font-size: 1.6rem;
         overflow-y: scroll;
     }
@@ -29,9 +29,7 @@ function App() {
     return (
         <ThemeProvider theme={theme}>
             <GlobalStyle />
-            <Router>
-                <Layout />
-            </Router>
+            <Layout />
         </ThemeProvider>
     );
 }

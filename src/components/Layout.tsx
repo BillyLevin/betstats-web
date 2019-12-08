@@ -1,11 +1,31 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import Routes from './Routes';
+import { BrowserRouter } from 'react-router-dom';
+import Header from './Header';
+import styled from 'styled-components';
+
+var Container = styled.div`
+    display: flex;
+    width: 100%;
+    min-height: 100vh;
+`;
+
+var Main = styled.main`
+    background-color: ${p => p.theme.colors.greyDark};
+    color: ${p => p.theme.colors.white};
+    flex: 1;
+`;
 
 function Layout() {
     return (
-        <>
-            <Link to="/create-bet">Create Bet</Link>
-        </>
+        <BrowserRouter>
+            <Container>
+                <Header />
+                <Main>
+                    <Routes />
+                </Main>
+            </Container>
+        </BrowserRouter>
     );
 }
 

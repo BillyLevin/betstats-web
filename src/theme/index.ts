@@ -1,8 +1,10 @@
 import { DefaultTheme } from 'styled-components';
 
 const colors = {
-    black: '#222222',
-    primary: '#FBFF12',
+    black: '#000000',
+    primary: '#F5F411',
+    greyDark: '#222222',
+    white: '#FFFFFF',
 };
 
 export type Colors = typeof colors;
