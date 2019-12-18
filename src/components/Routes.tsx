@@ -1,17 +1,25 @@
 import React from 'react';
-import { Route, Switch } from 'react-router-dom';
-import CreateBet from './CreateBet';
-import Login from './Login';
-import Home from './Home';
+import { Route, Switch, Redirect } from 'react-router-dom';
+import { Login } from './Login';
+import { Home } from './Home';
 
 function Routes() {
     return (
         <Switch>
-            <Route path="/create-bet" component={CreateBet} />
-            <Route path="/login" component={Login} />
-            <Route component={Home} />
+            <Route exact path="/" component={Home} />
+            <Redirect to="/" />
         </Switch>
     );
 }
 
-export default Routes;
+function UnauthenticatedRoutes() {
+    return (
+        <Switch>
+            <Route exact path="/" component={Home} />
+            <Route path="/login" component={Login} />
+            <Redirect to="/" />
+        </Switch>
+    );
+}
+
+export { Routes, UnauthenticatedRoutes };

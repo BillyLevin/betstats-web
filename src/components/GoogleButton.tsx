@@ -53,4 +53,4 @@ function GoogleButton() {
     );
 }
 
-export default GoogleButton;
+export { GoogleButton };

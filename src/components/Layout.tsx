@@ -1,8 +1,9 @@
 import React from 'react';
-import Routes from './Routes';
 import { BrowserRouter } from 'react-router-dom';
-import Header from './Header';
 import styled from 'styled-components';
+import { useUser } from '../context/user-context';
+import { Authenticated } from './Authenticated';
+import { Unauthenticated } from './Unauthenticated';
 
 var Container = styled.div`
     display: flex;
@@ -10,23 +11,15 @@ var Container = styled.div`
     min-height: 100vh;
 `;
 
-var Main = styled.main`
-    background-color: ${p => p.theme.colors.greyDark};
-    color: ${p => p.theme.colors.white};
-    flex: 1;
-`;
-
 function Layout() {
+    var user = useUser();
     return (
         <BrowserRouter>
             <Container>
-                <Header />
-                <Main>
-                    <Routes />
-                </Main>
+                {user ? <Authenticated /> : <Unauthenticated />}
             </Container>
         </BrowserRouter>
     );
 }
 
-export default Layout;
+export { Layout };

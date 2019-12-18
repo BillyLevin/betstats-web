@@ -1,5 +1,5 @@
 import React from 'react';
-import GoogleButton from './GoogleButton';
+import { GoogleButton } from './GoogleButton';
 
 function Login() {
     return (
@@ -10,4 +10,4 @@ function Login() {
     );
 }
 
-export default Login;
+export { Login };
