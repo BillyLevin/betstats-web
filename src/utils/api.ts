@@ -1,4 +1,7 @@
-const API_ENDPOINT = process.env.REACT_APP_API_URL;
+export const API_URL =
+    process.env.NODE_ENV === 'production'
+        ? 'productionurlgoeshere'
+        : 'http://localhost:4000';
 
 async function api(endpoint: string, body?: unknown) {
     var data = null;
@@ -16,7 +19,7 @@ async function api(endpoint: string, body?: unknown) {
     };
 
     try {
-        let response = await fetch(`${API_ENDPOINT + endpoint}`, options);
+        let response = await fetch(`${API_URL + endpoint}`, options);
         data = await response.json();
     } catch (err) {
         error = err;

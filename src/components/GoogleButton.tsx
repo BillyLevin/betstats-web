@@ -1,6 +1,7 @@
 import React from 'react';
 import googleLogo from '../img/google-logo.png';
 import styled from 'styled-components';
+import { API_URL } from '../utils/api';
 
 var Container = styled.div`
     display: flex;
@@ -45,7 +46,7 @@ var Text = styled.span`
 function GoogleButton() {
     return (
         <Container>
-            <Anchor href="http://localhost:4000/auth/google">
+            <Anchor href={`${API_URL}/auth/google`}>
                 <img src={googleLogo} alt="Google Logo" />
                 <Text>Sign in with Google</Text>
             </Anchor>
