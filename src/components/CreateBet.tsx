@@ -4,7 +4,7 @@ import { createBetSchema } from '../utils/schema';
 import { FormTextField } from './FormTextField';
 import { FormCheckbox } from './FormCheckbox';
 
-var initialValues = {
+const initialValues = {
     bet: '',
     odds: '',
     eachWay: false,

@@ -12,15 +12,15 @@ type AuthState = {
     user: User | null;
 };
 
-var AuthContext = React.createContext<AuthState | undefined>(undefined);
+const AuthContext = React.createContext<AuthState | undefined>(undefined);
 
 function AuthProvider(props: any) {
-    var [hasChecked, setHasChecked] = React.useState(false);
-    var [user, setUser] = React.useState<User | null>(null);
+    const [hasChecked, setHasChecked] = React.useState(false);
+    const [user, setUser] = React.useState<User | null>(null);
 
     React.useLayoutEffect(() => {
         async function getUser() {
-            var { data }: { data: AuthState } = await api('/auth/me');
+            const { data }: { data: AuthState } = await api('/auth/me');
 
             if (data && data.user) {
                 setHasChecked(true);
@@ -41,7 +41,7 @@ function AuthProvider(props: any) {
 }
 
 function useAuth() {
-    var context = React.useContext(AuthContext);
+    const context = React.useContext(AuthContext);
 
     if (context === undefined) {
         throw new Error('You cannot call useAuth outside of AuthProvider');

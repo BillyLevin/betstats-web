@@ -5,7 +5,7 @@ import { Layout } from './Layout';
 import { AuthProvider } from '../context/auth-context';
 import { UserProvider } from '../context/user-context';
 
-var GlobalStyle = createGlobalStyle`
+const GlobalStyle = createGlobalStyle`
     @import url('https://fonts.googleapis.com/css?family=Roboto:400,500,700&display=swap');
     *,
     *::before,

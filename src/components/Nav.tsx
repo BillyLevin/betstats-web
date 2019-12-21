@@ -4,7 +4,7 @@ import { NavLink } from 'react-router-dom';
 import { useUser } from '../context/user-context';
 import { FaSignInAlt, FaHome } from 'react-icons/fa';
 
-var StyledNav = styled.nav`
+const StyledNav = styled.nav`
     width: 100%;
 
     ul {
@@ -85,7 +85,7 @@ var StyledNav = styled.nav`
 `;
 
 function Nav() {
-    var user = useUser();
+    const user = useUser();
     return (
         <StyledNav>
             <ul>

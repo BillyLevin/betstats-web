@@ -3,11 +3,11 @@ import googleLogo from '../img/google-logo.png';
 import styled from 'styled-components';
 import { API_URL } from '../utils/api';
 
-var Container = styled.div`
+const Container = styled.div`
     display: flex;
 `;
 
-var Anchor = styled.a`
+const Anchor = styled.a`
     display: flex;
     align-items: center;
     background-color: #ffffff;
@@ -39,7 +39,7 @@ var Anchor = styled.a`
     }
 `;
 
-var Text = styled.span`
+const Text = styled.span`
     margin-right: 1.8rem;
 `;
 

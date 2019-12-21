@@ -5,14 +5,14 @@ import { useUser } from '../context/user-context';
 import { Authenticated } from './Authenticated';
 import { Unauthenticated } from './Unauthenticated';
 
-var Container = styled.div`
+const Container = styled.div`
     display: flex;
     width: 100%;
     min-height: 100vh;
 `;
 
 function Layout() {
-    var user = useUser();
+    const user = useUser();
     return (
         <BrowserRouter>
             <Container>

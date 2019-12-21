@@ -6,14 +6,14 @@ import { animated, useSpring } from 'react-spring';
 
 type Props = { label: string; isAnimated?: boolean } & FieldAttributes<any>;
 
-var Container = styled(animated.div)`
+const Container = styled(animated.div)`
     display: flex;
     flex-direction: column;
     width: 100%;
     margin-bottom: 1.6rem;
 `;
 
-var Label = styled.label`
+const Label = styled.label`
     color: ${props => props.theme.colors.primary};
     text-transform: uppercase;
     font-size: 1.1rem;
@@ -23,7 +23,7 @@ var Label = styled.label`
     font-weight: 300;
 `;
 
-var Input = styled.input<{ hasError: boolean }>`
+const Input = styled.input<{ hasError: boolean }>`
     padding: 0.8rem;
     border-radius: 3px;
     border: 0;
@@ -47,23 +47,23 @@ var Input = styled.input<{ hasError: boolean }>`
     }
 `;
 
-var ErrorMessage = styled.span`
+const ErrorMessage = styled.span`
     color: ${props => props.theme.colors.error};
     font-size: 1.1rem;
     margin-top: 4px;
 `;
 
 function FormTextField({ label, isAnimated = false, ...props }: Props) {
-    var [field, meta] = useField<any>(props);
-    var animationProps = useSpring({
+    const [field, meta] = useField<any>(props);
+    const animationProps = useSpring({
         to: { opacity: 1, marginTop: 0 },
         from: { opacity: 0, marginTop: -50 },
         config: { duration: 400 },
     });
 
-    var errorText =
+    const errorText =
         meta.error && meta.touched ? capitalizeFirstLetter(meta.error) : '';
-    var hasError = Boolean(errorText);
+    const hasError = Boolean(errorText);
 
     return (
         <Container style={isAnimated ? animationProps : undefined}>

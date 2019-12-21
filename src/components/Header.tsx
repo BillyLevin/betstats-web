@@ -4,7 +4,7 @@ import logo from '../img/logo-transparent-cropped.png';
 import { Link } from 'react-router-dom';
 import { Nav, UnauthenticatedNav } from './Nav';
 
-var HeaderContainer = styled.header`
+const HeaderContainer = styled.header`
     background-color: ${p => p.theme.colors.primary};
     color: ${p => p.theme.colors.greyDark};
     width: 32rem;
@@ -24,7 +24,7 @@ var HeaderContainer = styled.header`
     }
 `;
 
-var Logo = styled.img`
+const Logo = styled.img`
     width: 100%;
     border-radius: 3px;
 `;

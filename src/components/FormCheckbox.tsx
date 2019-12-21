@@ -5,11 +5,11 @@ import { hexToRGBA } from '../utils/colors';
 
 type Props = { label: string } & FieldAttributes<any>;
 
-var Container = styled.div`
+const Container = styled.div`
     margin-bottom: 1.6rem;
 `;
 
-var Label = styled.label`
+const Label = styled.label`
     cursor: pointer;
     display: block;
     position: relative;
@@ -18,7 +18,7 @@ var Label = styled.label`
     padding-left: 2.4rem;
 `;
 
-var Input = styled.input`
+const Input = styled.input`
     cursor: pointer;
     border: 0;
     clip: rect(0 0 0 0);
@@ -32,7 +32,7 @@ var Input = styled.input`
     width: 1px;
 `;
 
-var Checkbox = styled.span`
+const Checkbox = styled.span`
     position: absolute;
     top: 0;
     left: 0;
@@ -71,7 +71,7 @@ var Checkbox = styled.span`
 `;
 
 function FormCheckbox({ label, ...props }: Props) {
-    var [field] = useField<any>(props);
+    const [field] = useField<any>(props);
     return (
         <Container>
             <Label htmlFor={field.name}>

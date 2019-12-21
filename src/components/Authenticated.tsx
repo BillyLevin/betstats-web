@@ -3,7 +3,7 @@ import { Header } from './Header';
 import { Routes } from './Routes';
 import styled from 'styled-components';
 
-export var Main = styled.main`
+export const Main = styled.main`
     background-color: ${p => p.theme.colors.greyDark};
     color: ${p => p.theme.colors.white};
     flex: 1;
