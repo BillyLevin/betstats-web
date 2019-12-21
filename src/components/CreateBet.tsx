@@ -77,6 +77,12 @@ function CreateBet() {
                                     min={0}
                                 />
                             )}
+                            <FormTextField
+                                placeholder="DD/MM/YYYY or DD-MM-YYYY"
+                                type="string"
+                                name="date"
+                                label="Date"
+                            />
                             <button type="submit">submit</button>
                         </Form>
                         <pre>{JSON.stringify(values, null, 4)}</pre>
