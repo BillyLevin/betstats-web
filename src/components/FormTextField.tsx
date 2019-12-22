@@ -74,7 +74,7 @@ function FormTextField({ label, isAnimated = false, ...props }: Props) {
                 hasError={hasError}
                 autoComplete="off"
             />
-            {hasError && <ErrorMessage>{errorText}</ErrorMessage>}
+            {hasError && <ErrorMessage role="alert">{errorText}</ErrorMessage>}
         </Container>
     );
 }

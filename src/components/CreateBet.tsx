@@ -1,9 +1,10 @@
 import React from 'react';
 import { Formik, Form } from 'formik';
-import { createBetSchema } from '../utils/schema';
 import { FormTextField } from './FormTextField';
 import { FormCheckbox } from './FormCheckbox';
 import { Button } from './Button';
+import { api } from '../utils/api';
+import { createBetSchema } from '../utils/schema';
 
 const initialValues = {
     bet: '',
@@ -11,7 +12,7 @@ const initialValues = {
     eachWay: false,
     stake: 0,
     settled: false,
-    returns: 0,
+    returns: 0 as number | null,
     date: '',
 };
 
@@ -24,8 +25,21 @@ function CreateBet() {
             <Formik<FormValues>
                 validationSchema={createBetSchema}
                 initialValues={initialValues}
-                onSubmit={() => {
-                    console.log('hello');
+                onSubmit={async (input, { resetForm }) => {
+                    let postData = { ...input };
+
+                    if (postData.settled === false) {
+                        postData.returns = null;
+                    }
+
+                    let { data, errors } = await api('/bets/create', postData);
+
+                    if (data) {
+                        // TODO: success message
+                        resetForm();
+                    } else {
+                        // TODO: format/show error messages?
+                    }
                 }}
             >
                 {({ values, errors }) => (

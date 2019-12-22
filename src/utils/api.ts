@@ -5,7 +5,7 @@ export const API_URL =
 
 async function api(endpoint: string, body?: unknown) {
     let data = null;
-    let error = null;
+    let errors = null;
 
     const defaults: RequestInit = {
         credentials: 'include',
@@ -19,13 +19,18 @@ async function api(endpoint: string, body?: unknown) {
     };
 
     try {
-        const response = await fetch(`${API_URL + endpoint}`, options);
-        data = await response.json();
+        let response = await fetch(`${API_URL + endpoint}`, options);
+        let formatted = await response.json();
+        if (formatted.errors) {
+            errors = formatted.errors;
+        } else {
+            data = formatted;
+        }
     } catch (err) {
-        error = err;
+        errors = err;
     }
 
-    return { data, error };
+    return { data, errors };
 }
 
 export { api };
