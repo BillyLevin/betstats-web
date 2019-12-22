@@ -26,8 +26,7 @@ const Label = styled.label`
 const Input = styled.input<{ hasError: boolean }>`
     padding: 0.8rem;
     border-radius: 3px;
-    border: 0;
-    border-bottom: 2px solid transparent;
+    border: 2px solid transparent;
     transition: all 0.3s;
     outline: 0;
     border-color: ${props =>
@@ -38,8 +37,8 @@ const Input = styled.input<{ hasError: boolean }>`
             : props.theme.colors.white};
 
     &:focus {
-        background-color: ${props => props.theme.colors.white};
-        border-bottom: 2px solid ${props => props.theme.colors.primary};
+        background-color: ${props => props.theme.colors.primaryLight};
+        border: 2px solid ${props => props.theme.colors.primary};
     }
 
     &::placeholder {

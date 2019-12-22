@@ -3,6 +3,7 @@ import { Formik, Form } from 'formik';
 import { createBetSchema } from '../utils/schema';
 import { FormTextField } from './FormTextField';
 import { FormCheckbox } from './FormCheckbox';
+import { Button } from './Button';
 
 const initialValues = {
     bet: '',
@@ -78,12 +79,14 @@ function CreateBet() {
                                 />
                             )}
                             <FormTextField
-                                placeholder="DD/MM/YYYY or DD-MM-YYYY"
+                                placeholder="DD/MM/YYYY"
                                 type="string"
                                 name="date"
                                 label="Date"
                             />
-                            <button type="submit">submit</button>
+                            <Button type="submit" variant="unfilled">
+                                Submit
+                            </Button>
                         </Form>
                         <pre>{JSON.stringify(values, null, 4)}</pre>
                         <pre>{JSON.stringify(errors, null, 4)}</pre>

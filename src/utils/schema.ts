@@ -25,7 +25,7 @@ export const createBetSchema = yup.object().shape({
     date: yup
         .string()
         .required('Please enter the date of the bet')
-        .matches(/^(0?[1-9]|[12][0-9]|3[01])[/-](0?[1-9]|1[012])[/-]\d{4}$/g, {
+        .matches(/^(0?[1-9]|[12][0-9]|3[01])[/](0?[1-9]|1[012])[/]\d{4}$/g, {
             message: 'Please enter a valid date in the correct format',
         }),
 });
