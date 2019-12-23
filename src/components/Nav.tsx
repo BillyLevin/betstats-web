@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { NavLink } from 'react-router-dom';
 import { useUser } from '../context/user-context';
-import { FaSignInAlt, FaHome } from 'react-icons/fa';
+import { FaSignInAlt, FaHome, FaPlus } from 'react-icons/fa';
 
 const StyledNav = styled.nav`
     width: 100%;
@@ -93,6 +93,11 @@ function Nav() {
                 <li>
                     <NavLink to="/" activeClassName="is-active" exact>
                         <FaHome /> <span>Home</span>
+                    </NavLink>
+                </li>
+                <li>
+                    <NavLink to="/create-bet" activeClassName="is-active" exact>
+                        <FaPlus /> <span>Create Bet</span>
                     </NavLink>
                 </li>
             </ul>

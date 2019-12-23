@@ -5,6 +5,8 @@ import { FormCheckbox } from './FormCheckbox';
 import { Button } from './Button';
 import { api } from '../utils/api';
 import { createBetSchema } from '../utils/schema';
+import { PageHeading } from './PageHeading';
+import styled from 'styled-components';
 
 const initialValues = {
     bet: '',
@@ -18,10 +20,23 @@ const initialValues = {
 
 type FormValues = typeof initialValues;
 
+const Section = styled.section`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+`;
+
+const FormContainer = styled.div`
+    width: 48rem;
+    border: 2px solid ${props => props.theme.colors.primary};
+    border-radius: 3px;
+    padding: 3.2rem;
+`;
+
 function CreateBet() {
     return (
-        <div>
-            <h1>Create Bet</h1>
+        <Section>
+            <PageHeading withDecoration>Create Bet</PageHeading>
             <Formik<FormValues>
                 validationSchema={createBetSchema}
                 initialValues={initialValues}
@@ -42,15 +57,9 @@ function CreateBet() {
                     }
                 }}
             >
-                {({ values, errors }) => (
-                    <>
-                        <Form
-                            style={{
-                                width: 300,
-                                backgroundColor: 'black',
-                                padding: '2.4rem',
-                            }}
-                        >
+                {({ values }) => (
+                    <FormContainer>
+                        <Form>
                             <FormTextField
                                 placeholder="e.g. Clondaw Bisto"
                                 type="text"
@@ -102,12 +111,10 @@ function CreateBet() {
                                 Submit
                             </Button>
                         </Form>
-                        <pre>{JSON.stringify(values, null, 4)}</pre>
-                        <pre>{JSON.stringify(errors, null, 4)}</pre>
-                    </>
+                    </FormContainer>
                 )}
             </Formik>
-        </div>
+        </Section>
     );
 }
 

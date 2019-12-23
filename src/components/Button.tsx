@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { hexToRGBA } from '../utils/colors';
 
 type ExtraProps = {
     variant?: 'default' | 'unfilled';
@@ -48,6 +49,11 @@ const StyledButton = styled.button<StyleProps>`
                 : props.theme.colors.primaryDark};
 
         color: ${props => props.theme.colors.greyDark};
+    }
+
+    &:focus {
+        box-shadow: 0 0 0 2px
+            ${props => hexToRGBA(props.theme.colors.primaryDark, 0.8)};
     }
 `;
 

@@ -7,6 +7,8 @@ import { UserProvider } from '../context/user-context';
 
 const GlobalStyle = createGlobalStyle`
     @import url('https://fonts.googleapis.com/css?family=Roboto:400,500,700&display=swap');
+    @import url('https://fonts.googleapis.com/css?family=Open+Sans:400,700&display=swap');
+
     *,
     *::before,
     *::after {
@@ -24,6 +26,10 @@ const GlobalStyle = createGlobalStyle`
         font-family: 'Roboto', sans-serif;
         font-size: 1.6rem;
         overflow-y: scroll;
+    }
+
+    h1,h2,h3,h4,h5,h6 {
+        font-family: 'Open Sans', sans-serif;
     }
 `;
 
