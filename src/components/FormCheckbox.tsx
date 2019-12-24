@@ -16,6 +16,7 @@ const Label = styled.label`
     user-select: none;
     font-size: 1.4rem;
     padding-left: 2.4rem;
+    letter-spacing: 1px;
 `;
 
 const Input = styled.input`

@@ -7,6 +7,10 @@ import { api } from '../utils/api';
 import { createBetSchema } from '../utils/schema';
 import { PageHeading } from './PageHeading';
 import styled from 'styled-components';
+import { PageDescription } from './PageDescription';
+import { Link } from 'react-router-dom';
+import { PageMessage } from './PageMessage';
+import { Page } from './Page';
 
 const initialValues = {
     bet: '',
@@ -20,101 +24,116 @@ const initialValues = {
 
 type FormValues = typeof initialValues;
 
-const Section = styled.section`
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-`;
-
 const FormContainer = styled.div`
     width: 48rem;
-    border: 2px solid ${props => props.theme.colors.primary};
+    border: 3px solid ${props => props.theme.colors.primary};
     border-radius: 3px;
     padding: 3.2rem;
 `;
 
 function CreateBet() {
+    const [success, setSuccess] = React.useState(false);
     return (
-        <Section>
-            <PageHeading withDecoration>Create Bet</PageHeading>
-            <Formik<FormValues>
-                validationSchema={createBetSchema}
-                initialValues={initialValues}
-                onSubmit={async (input, { resetForm }) => {
-                    let postData = { ...input };
+        <Page>
+            {success ? (
+                <PageMessage message="Bet added successfully!" type="success" />
+            ) : (
+                <>
+                    <PageHeading withDecoration>Create Bet</PageHeading>
+                    <PageDescription>
+                        Add an open or settled bet to your records using the
+                        form below. You can easily edit/delete it later in the{' '}
+                        <Link to="/bet-manager">Bet Manager</Link>!
+                    </PageDescription>
+                    <Formik<FormValues>
+                        validationSchema={createBetSchema}
+                        initialValues={initialValues}
+                        onSubmit={async (
+                            input,
+                            { resetForm, setSubmitting }
+                        ) => {
+                            let postData = { ...input };
 
-                    if (postData.settled === false) {
-                        postData.returns = null;
-                    }
+                            if (postData.settled === false) {
+                                postData.returns = null;
+                            }
 
-                    let { data, errors } = await api('/bets/create', postData);
+                            let { data } = await api('/bets/create', postData);
 
-                    if (data) {
-                        // TODO: success message
-                        resetForm();
-                    } else {
-                        // TODO: format/show error messages?
-                    }
-                }}
-            >
-                {({ values }) => (
-                    <FormContainer>
-                        <Form>
-                            <FormTextField
-                                placeholder="e.g. Clondaw Bisto"
-                                type="text"
-                                name="bet"
-                                label="Bet Name"
-                            />
-                            <FormCheckbox
-                                type="checkbox"
-                                name="eachWay"
-                                label="Each Way"
-                            />
-                            <FormTextField
-                                placeholder="e.g. 11/4"
-                                type="text"
-                                name="odds"
-                                label="Odds"
-                            />
-                            <FormTextField
-                                placeholder="e.g. 17.50"
-                                type="number"
-                                name="stake"
-                                step={0.01}
-                                label="Stake (£)"
-                                min={0}
-                            />
-                            <FormCheckbox
-                                type="checkbox"
-                                name="settled"
-                                label="Settled"
-                            />
-                            {values.settled === true && (
-                                <FormTextField
-                                    isAnimated
-                                    placeholder="e.g. 150.75"
-                                    type="number"
-                                    name="returns"
-                                    step={0.01}
-                                    label="Returns (£)"
-                                    min={0}
-                                />
-                            )}
-                            <FormTextField
-                                placeholder="DD/MM/YYYY"
-                                type="string"
-                                name="date"
-                                label="Date"
-                            />
-                            <Button type="submit" variant="unfilled">
-                                Submit
-                            </Button>
-                        </Form>
-                    </FormContainer>
-                )}
-            </Formik>
-        </Section>
+                            if (data) {
+                                // TODO: success message
+                                resetForm();
+                                setSuccess(true);
+                                setSubmitting(false);
+                            } else {
+                                setSubmitting(false);
+                            }
+                        }}
+                    >
+                        {({ values, isSubmitting }) => (
+                            <FormContainer>
+                                <Form>
+                                    <FormTextField
+                                        placeholder="e.g. Clondaw Bisto"
+                                        type="text"
+                                        name="bet"
+                                        label="Bet Name"
+                                    />
+                                    <FormCheckbox
+                                        type="checkbox"
+                                        name="eachWay"
+                                        label="Each Way"
+                                    />
+                                    <FormTextField
+                                        placeholder="e.g. 11/4"
+                                        type="text"
+                                        name="odds"
+                                        label="Odds"
+                                    />
+                                    <FormTextField
+                                        placeholder="e.g. 17.50"
+                                        type="number"
+                                        name="stake"
+                                        step={0.01}
+                                        label="Stake (£)"
+                                        min={0}
+                                    />
+                                    <FormCheckbox
+                                        type="checkbox"
+                                        name="settled"
+                                        label="Settled"
+                                    />
+                                    {values.settled === true && (
+                                        <FormTextField
+                                            isAnimated
+                                            placeholder="e.g. 150.75"
+                                            type="number"
+                                            name="returns"
+                                            step={0.01}
+                                            label="Returns (£)"
+                                            min={0}
+                                        />
+                                    )}
+                                    <FormTextField
+                                        placeholder="DD/MM/YYYY"
+                                        type="string"
+                                        name="date"
+                                        label="Date"
+                                    />
+                                    <Button
+                                        type="submit"
+                                        variant="unfilled"
+                                        disabled={isSubmitting}
+                                    >
+                                        Submit
+                                    </Button>
+                                </Form>
+                            </FormContainer>
+                        )}
+                    </Formik>
+                </>
+            )}
+        </Page>
     );
 }
 

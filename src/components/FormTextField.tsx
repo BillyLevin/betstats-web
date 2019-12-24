@@ -16,11 +16,10 @@ const Container = styled(animated.div)`
 const Label = styled.label`
     color: ${props => props.theme.colors.primary};
     text-transform: uppercase;
-    font-size: 1.1rem;
+    font-size: 1.4rem;
     font-weight: 400;
-    letter-spacing: 1px;
+    letter-spacing: 2px;
     margin-bottom: 4px;
-    font-weight: 300;
 `;
 
 const Input = styled.input<{ hasError: boolean }>`
@@ -48,8 +47,9 @@ const Input = styled.input<{ hasError: boolean }>`
 
 const ErrorMessage = styled.span`
     color: ${props => props.theme.colors.error};
-    font-size: 1.1rem;
+    font-size: 1.2rem;
     margin-top: 4px;
+    letter-spacing: 1px;
 `;
 
 function FormTextField({ label, isAnimated = false, ...props }: Props) {
@@ -74,7 +74,11 @@ function FormTextField({ label, isAnimated = false, ...props }: Props) {
                 hasError={hasError}
                 autoComplete="off"
             />
-            {hasError && <ErrorMessage role="alert">{errorText}</ErrorMessage>}
+            {hasError && (
+                <ErrorMessage role="alert" aria-live="assertive">
+                    {errorText}
+                </ErrorMessage>
+            )}
         </Container>
     );
 }

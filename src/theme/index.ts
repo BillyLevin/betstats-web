@@ -9,6 +9,8 @@ const colors = {
     white: '#FFFFFF',
     error: '#A40606',
     errorLight: '#F08989',
+    successDark: '#55663D',
+    successLight: '#ceebab',
 };
 
 export type Colors = typeof colors;

@@ -4,19 +4,18 @@ import { FaHorseHead } from 'react-icons/fa';
 
 type Props = {
     children: React.ReactNode;
-    align?: 'left' | 'right' | 'center';
     withDecoration?: boolean;
 } & React.PropsWithoutRef<JSX.IntrinsicElements['h1']>;
 
 const Container = styled.div``;
 
-const H1 = styled.h1<{ align: 'left' | 'right' | 'center' }>`
+const H1 = styled.h1`
     color: ${props => props.theme.colors.primary};
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 8px;
     font-size: 5.5rem;
-    text-align: ${props => props.align};
+    text-align: center;
     position: relative;
     padding-bottom: 1.6rem;
 `;
@@ -32,7 +31,7 @@ const Decoration = styled.div`
         width: 7.2rem;
         height: auto;
         border: 3px solid ${props => props.theme.colors.primary};
-        border-radius: 50%;
+        border-radius: 3px;
         padding: 0.8rem;
         position: relative;
     }
@@ -62,17 +61,10 @@ const Decoration = styled.div`
     }
 `;
 
-function PageHeading({
-    children,
-    align = 'center',
-    withDecoration = false,
-    ...props
-}: Props) {
+function PageHeading({ children, withDecoration = false, ...props }: Props) {
     return (
         <Container>
-            <H1 align={align} {...props}>
-                {children}
-            </H1>
+            <H1 {...props}>{children}</H1>
             {withDecoration && (
                 <Decoration>
                     <span>

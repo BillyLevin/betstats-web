@@ -26,8 +26,8 @@ const StyledButton = styled.button<StyleProps>`
     font-weight: 700;
     outline: 0;
     text-transform: uppercase;
-    font-size: 1.1rem;
-    letter-spacing: 2px;
+    font-size: 1.4rem;
+    letter-spacing: 3px;
     cursor: pointer;
     transition: all 0.3s;
     color: ${props =>

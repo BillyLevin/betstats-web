@@ -1,5 +1,5 @@
 import React from 'react';
-import { Spinner } from '../components/Spinner';
+import { PageSpinner } from '../components/PageSpinner';
 import { api } from '../utils/api';
 
 export type User = {
@@ -34,7 +34,7 @@ function AuthProvider(props: any) {
     }, []);
 
     if (!hasChecked) {
-        return <Spinner />;
+        return <PageSpinner />;
     }
 
     return <AuthContext.Provider value={{ user }} {...props} />;
