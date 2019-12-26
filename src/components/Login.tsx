@@ -1,12 +1,13 @@
 import React from 'react';
 import { GoogleButton } from './GoogleButton';
+import { Page } from './Page';
 
 function Login() {
     return (
-        <div>
+        <Page>
             Use the button below to log in!!!
             <GoogleButton />
-        </div>
+        </Page>
     );
 }
 

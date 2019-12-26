@@ -18,7 +18,7 @@ const Container = styled.div`
 `;
 
 const Content = styled(animated.div)`
-    padding: 3.2rem;
+    padding: 1.6rem 3.2rem;
     border-radius: 3px;
     border-width: 3px;
     border-style: solid;
@@ -51,6 +51,10 @@ const Message = styled.div`
     }
 `;
 
+const Extras = styled.div`
+    margin-top: 1.6rem;
+`;
+
 function PageMessage({ message, type, children }: Props) {
     const animationProps = useSpring({
         to: { opacity: 1, transform: 'scale(1,1)' },
@@ -69,7 +73,7 @@ function PageMessage({ message, type, children }: Props) {
                         {message}
                     </span>
                 </Message>
-                {children && <div>{children}</div>}
+                {children && <Extras>{children}</Extras>}
             </Content>
         </Container>
     );

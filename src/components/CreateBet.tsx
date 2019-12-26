@@ -32,11 +32,20 @@ const FormContainer = styled.div`
 `;
 
 function CreateBet() {
-    const [success, setSuccess] = React.useState(false);
+    const [isComplete, setIsComplete] = React.useState(false);
     return (
         <Page>
-            {success ? (
-                <PageMessage message="Bet added successfully!" type="success" />
+            {isComplete ? (
+                <PageMessage message="Bet added successfully!" type="success">
+                    <Button
+                        variant="success"
+                        onClick={() => {
+                            setIsComplete(false);
+                        }}
+                    >
+                        Add Another
+                    </Button>
+                </PageMessage>
             ) : (
                 <>
                     <PageHeading withDecoration>Create Bet</PageHeading>
@@ -61,9 +70,8 @@ function CreateBet() {
                             let { data } = await api('/bets/create', postData);
 
                             if (data) {
-                                // TODO: success message
                                 resetForm();
-                                setSuccess(true);
+                                setIsComplete(true);
                                 setSubmitting(false);
                             } else {
                                 setSubmitting(false);
