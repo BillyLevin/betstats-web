@@ -14,6 +14,7 @@
         "react-router-dom": "^5.1.2",
         "react-scripts": "3.2.0",
         "react-spring": "^8.0.27",
+        "react-table": "^7.0.0-rc.15",
         "styled-components": "^4.4.1",
         "typescript": "3.7.2",
         "yup": "^0.28.0"
@@ -49,6 +50,7 @@
         "@types/react-router-dom": "^5.1.2",
         "@types/styled-components": "^4.4.0",
         "@types/yup": "^0.26.26",
+        "eslint": "^6.8.0",
         "eslint-config-prettier": "^6.6.0",
         "eslint-plugin-prettier": "^3.1.1",
         "prettier": "^1.19.1"
