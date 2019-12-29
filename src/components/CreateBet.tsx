@@ -33,16 +33,16 @@ const FormContainer = styled.div`
 
 function CreateBet() {
     const [isComplete, setIsComplete] = React.useState(false);
+
+    function resetPage() {
+        setIsComplete(false);
+    }
+
     return (
         <Page>
             {isComplete ? (
                 <PageMessage message="Bet added successfully!" type="success">
-                    <Button
-                        variant="success"
-                        onClick={() => {
-                            setIsComplete(false);
-                        }}
-                    >
+                    <Button variant="success" onClick={resetPage}>
                         Add Another
                     </Button>
                 </PageMessage>
@@ -71,8 +71,8 @@ function CreateBet() {
 
                             if (data) {
                                 resetForm();
-                                setIsComplete(true);
                                 setSubmitting(false);
+                                setIsComplete(true);
                             } else {
                                 setSubmitting(false);
                             }

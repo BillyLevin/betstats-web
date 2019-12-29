@@ -9,3 +9,9 @@ export function getTodaysDate() {
 
     return `${day}/${month}/${year}`;
 }
+
+export function americaniseDate(date: string) {
+    let sections = date.split('/');
+
+    return [sections[1], sections[0], sections[2]].join('/');
+}

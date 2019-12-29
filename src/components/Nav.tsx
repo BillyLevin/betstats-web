@@ -96,13 +96,13 @@ function Nav() {
                     </NavLink>
                 </li>
                 <li>
-                    <NavLink to="/create-bet" activeClassName="is-active">
-                        <FaPlus /> <span>Create Bet</span>
+                    <NavLink to="/bet-manager" activeClassName="is-active">
+                        <FaTasks /> <span>Bet Manager</span>
                     </NavLink>
                 </li>
                 <li>
-                    <NavLink to="/bet-manager" activeClassName="is-active">
-                        <FaTasks /> <span>Bet Manager</span>
+                    <NavLink to="/create-bet" activeClassName="is-active">
+                        <FaPlus /> <span>Create Bet</span>
                     </NavLink>
                 </li>
             </ul>
