@@ -6,6 +6,7 @@ import styled from 'styled-components';
 type Props = {
     columns: any[];
     data: any[];
+    defaultSort?: Array<{ id: string; desc: boolean }>;
 };
 
 const CustomTable = styled.table`
@@ -61,7 +62,7 @@ const CustomTable = styled.table`
     }
 `;
 
-function Table({ columns, data }: Props) {
+function Table({ columns, data, defaultSort }: Props) {
     const {
         getTableProps,
         getTableBodyProps,
@@ -69,7 +70,16 @@ function Table({ columns, data }: Props) {
         rows,
         prepareRow,
         footerGroups,
-    } = useTable({ columns, data }, useSortBy);
+    } = useTable(
+        {
+            columns,
+            data,
+            ...(defaultSort && {
+                initialState: { sortBy: defaultSort },
+            }),
+        },
+        useSortBy
+    );
 
     return (
         <CustomTable {...getTableProps()}>

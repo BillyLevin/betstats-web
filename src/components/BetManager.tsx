@@ -5,6 +5,7 @@ import { Bet } from '../types/types';
 import { Table } from './Table';
 import { formatAsCurrency, oddsToValue } from '../utils/strings';
 import { americaniseDate } from '../utils/date';
+import { Button } from './Button';
 
 function calculateSum<T extends { [key: string]: any }>(key: string) {
     return function addToTotal(prev: number, curr: T) {
@@ -102,6 +103,7 @@ const tableColumns = [
             formatAsCurrency(info.rows.reduce(calculateSum('profit'), 0)),
     },
 ];
+const defaultSort = [{ id: 'date', desc: true }];
 
 function BetManager() {
     const [bets, setBets] = React.useState<Bet[] | null>(null);
@@ -109,7 +111,7 @@ function BetManager() {
     return (
         <Page>
             <div>bet manager</div>
-            <button
+            <Button
                 onClick={async () => {
                     const {
                         data,
@@ -119,8 +121,14 @@ function BetManager() {
                 }}
             >
                 get stuff
-            </button>
-            {bets && <Table columns={tableColumns} data={bets} />}
+            </Button>
+            {bets && (
+                <Table
+                    columns={tableColumns}
+                    data={bets}
+                    defaultSort={defaultSort}
+                />
+            )}
         </Page>
     );
 }
