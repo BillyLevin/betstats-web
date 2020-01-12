@@ -42,10 +42,9 @@ const Button = styled.button`
     }
 `;
 
-// TODO: set app to aria-hidden="true", close when click overlay, have appropriate aria labels, make sure elements are tabbable
-
 function SettleBet({ betId }: Props) {
     const [showModal, setShowModal] = React.useState(false);
+    const openBtnRef = React.useRef<HTMLButtonElement | null>(null);
 
     function openModal() {
         setShowModal(true);
@@ -58,10 +57,24 @@ function SettleBet({ betId }: Props) {
     return (
         <Container>
             <span>Open</span>
-            <Button aria-label="Settle this bet" onClick={openModal}>
+            <Button
+                aria-label="Settle bet"
+                onClick={openModal}
+                ref={openBtnRef}
+            >
                 <FaArrowCircleRight />
             </Button>
-            <Modal id="settle-bet" isOpen={showModal} closeModal={closeModal} />
+            <Modal
+                id="settle-bet"
+                isOpen={showModal}
+                closeModal={closeModal}
+                label="Settle bet"
+                triggerRef={openBtnRef}
+            >
+                <h1>settle bet</h1>
+                <p>id is {betId}</p>
+                <button>test focusable element</button>
+            </Modal>
         </Container>
     );
 }
