@@ -3,7 +3,7 @@ import { useFadeIn } from '../hooks/animation';
 import { animated } from 'react-spring';
 import styled from 'styled-components';
 
-const Section = styled(animated.section)`
+const Section = styled(animated.article)`
     display: flex;
     flex-direction: column;
     align-items: center;

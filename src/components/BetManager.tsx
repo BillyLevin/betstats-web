@@ -6,6 +6,8 @@ import { Table } from './Table';
 import { formatAsCurrency, oddsToValue } from '../utils/strings';
 import { americaniseDate } from '../utils/date';
 import { Button } from './Button';
+import { SettleBet } from './SettleBet';
+import { PageHeading } from './PageHeading';
 
 function calculateSum<T extends { [key: string]: any }>(key: string) {
     return function addToTotal(prev: number, curr: T) {
@@ -55,7 +57,10 @@ const tableColumns = [
     {
         Header: 'Status',
         accessor: (row: Bet) => {
-            return row.settled === true ? 'Settled' : 'Open';
+            if (row.settled === true) {
+                return 'Settled';
+            }
+            return <SettleBet betId={row._id} />;
         },
         id: 'status',
     },
@@ -103,25 +108,21 @@ const tableColumns = [
             formatAsCurrency(info.rows.reduce(calculateSum('profit'), 0)),
     },
 ];
+
 const defaultSort = [{ id: 'date', desc: true }];
 
 function BetManager() {
     const [bets, setBets] = React.useState<Bet[] | null>(null);
 
+    async function handleClick() {
+        const { data, errors } = await api<Bet[]>('/bets/all');
+        setBets(data);
+    }
+
     return (
         <Page>
-            <div>bet manager</div>
-            <Button
-                onClick={async () => {
-                    const {
-                        data,
-                        errors,
-                    }: { data: Bet[]; errors: any } = await api('/bets/all');
-                    setBets(data);
-                }}
-            >
-                get stuff
-            </Button>
+            <PageHeading withDecoration>Bet Manager</PageHeading>
+            <Button onClick={handleClick}>Get Bets</Button>
             {bets && (
                 <Table
                     columns={tableColumns}

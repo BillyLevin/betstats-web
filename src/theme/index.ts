@@ -11,6 +11,7 @@ const colors = {
     errorLight: '#F08989',
     successDark: '#55663D',
     successLight: '#ceebab',
+    success: '#1c9903',
 };
 
 export type Colors = typeof colors;

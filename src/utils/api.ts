@@ -3,8 +3,8 @@ export const API_URL =
         ? 'productionurlgoeshere'
         : 'http://localhost:4000';
 
-async function api(endpoint: string, body?: unknown) {
-    let data = null;
+async function api<T = any>(endpoint: string, body?: unknown) {
+    let data: T | null = null;
     let errors = null;
 
     const defaults: RequestInit = {

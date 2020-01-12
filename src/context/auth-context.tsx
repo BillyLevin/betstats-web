@@ -20,7 +20,7 @@ function AuthProvider(props: any) {
 
     React.useLayoutEffect(() => {
         async function getUser() {
-            const { data }: { data: AuthState } = await api('/auth/me');
+            const { data } = await api<AuthState>('/auth/me');
 
             if (data && data.user) {
                 setHasChecked(true);
