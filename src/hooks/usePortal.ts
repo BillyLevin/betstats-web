@@ -28,6 +28,13 @@ export function usePortal(elementId: string) {
             }
 
             parent.appendChild(rootRef.current as Element);
+
+            return function removeElement() {
+                rootRef.current?.remove();
+                if (!parent.childNodes.length) {
+                    parent.remove();
+                }
+            };
         },
         [elementId]
     );
