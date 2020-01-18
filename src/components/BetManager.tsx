@@ -29,7 +29,7 @@ const defaultSort = [{ id: 'date', desc: true }];
 function BetManager() {
     const [bets, setBets] = React.useState<Bet[] | null>(null);
 
-    async function fetchTable() {
+    async function fetchBetsData() {
         const { data } = await api<Bet[]>('/bets/all');
         setBets(data);
     }
@@ -82,6 +82,7 @@ function BetManager() {
                                 toast.success(
                                     <ToastContent message="Bet saved!" />
                                 );
+                                fetchBetsData();
                             }}
                         />
                     );
@@ -144,7 +145,7 @@ function BetManager() {
     return (
         <Page>
             <PageHeading withDecoration>Bet Manager</PageHeading>
-            <Button onClick={fetchTable}>Get Bets</Button>
+            <Button onClick={fetchBetsData}>Get Bets</Button>
             {bets && (
                 <Table
                     columns={tableColumns}
