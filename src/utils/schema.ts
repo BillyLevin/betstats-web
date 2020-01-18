@@ -29,3 +29,10 @@ export const createBetSchema = yup.object().shape({
             message: 'Please enter a valid date in the correct format',
         }),
 });
+
+export const settleBetSchema = yup.object().shape({
+    returns: yup
+        .number()
+        .required('Please enter your returns')
+        .min(0, 'Please enter non-negative returns'),
+});

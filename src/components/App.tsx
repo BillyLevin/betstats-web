@@ -7,7 +7,7 @@ import { UserProvider } from '../context/user-context';
 
 const GlobalStyle = createGlobalStyle`
     @import url('https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap');
-    @import url('https://fonts.googleapis.com/css?family=Open+Sans:700&display=swap');
+    @import url('https://fonts.googleapis.com/css?family=Open+Sans:300,700&display=swap');
 
     *,
     *::before,

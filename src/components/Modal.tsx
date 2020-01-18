@@ -33,11 +33,11 @@ const ModalContainer = styled.div`
     min-width: 30rem;
     max-height: 100%;
     padding: 2.4rem;
-    background-color: ${props => props.theme.colors.primary};
+    background-color: ${props => props.theme.colors.greyDark};
     overflow-y: auto;
     transform: translate(-50%, -50%);
     border-radius: 3px;
-    color: ${props => props.theme.colors.greyDark};
+    color: ${props => props.theme.colors.primary};
 `;
 
 const Close = styled.button`
@@ -52,7 +52,10 @@ const Close = styled.button`
     display: flex;
     justify-content: center;
     align-items: center;
-    transition: background-color 0.3s;
+    transition: all 0.3s;
+    color: ${props => props.theme.colors.white};
+    border: 2px solid transparent;
+    outline: 0;
 
     svg {
         width: 2rem;
@@ -62,21 +65,20 @@ const Close = styled.button`
     &:hover,
     &:focus,
     &:active {
-        background-color: ${props => props.theme.colors.primaryDark};
+        background-color: ${props => props.theme.colors.black};
     }
 
     &:focus,
     &:active {
-        outline: 2px auto ${props => props.theme.colors.greyDark};
+        border: 2px solid ${props => props.theme.colors.primary};
     }
 `;
-
-// TODO: lock scrolling
 
 function Modal({ id, isOpen, closeModal, label, children, triggerRef }: Props) {
     const handleKeyDown = useKeyDown(27, closeModal);
     const backdropRef = React.useRef<HTMLElement | null>(null);
     const closeBtnRef = React.useRef<HTMLButtonElement | null>(null);
+    const mouseDownLocation = React.useRef<EventTarget | null>(null);
 
     React.useEffect(
         function focusCloseButton() {
@@ -91,9 +93,17 @@ function Modal({ id, isOpen, closeModal, label, children, triggerRef }: Props) {
 
     function handleAwayClick(event: React.MouseEvent<HTMLElement, MouseEvent>) {
         // only hide modal if we click the backdrop
-        if (event.target === event.currentTarget) {
+        if (event.currentTarget === mouseDownLocation.current) {
             closeModal();
         }
+    }
+
+    // we only want to close the modal if the mouse DOWN location is outside the modal content
+    // this prevents modal from closing if we e.g. click inside the modal then drag cursor outside and release
+    function setMouseDownLocation(
+        event: React.MouseEvent<HTMLElement, MouseEvent>
+    ) {
+        mouseDownLocation.current = event.target;
     }
 
     if (isOpen) {
@@ -103,6 +113,7 @@ function Modal({ id, isOpen, closeModal, label, children, triggerRef }: Props) {
                     <RemoveScroll>
                         <Backdrop
                             onKeyDown={handleKeyDown}
+                            onMouseDown={setMouseDownLocation}
                             onClick={handleAwayClick}
                             aria-modal="true"
                             tabIndex={-1}

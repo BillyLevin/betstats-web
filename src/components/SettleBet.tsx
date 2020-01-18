@@ -3,10 +3,23 @@ import { FaArrowCircleRight } from 'react-icons/fa';
 import styled from 'styled-components';
 import { hexToRGBA } from '../utils/colors';
 import { Modal } from './Modal';
+import { Formik, Form } from 'formik';
+import { settleBetSchema } from '../utils/schema';
+import { api } from '../utils/api';
+import { FormTextField } from './FormTextField';
+import { Button } from './Button';
+import { Loader } from './Loader';
 
 type Props = {
     betId: string;
+    onSuccess: () => void;
 };
+
+const initialValues = {
+    returns: 0,
+};
+
+type FormValues = typeof initialValues;
 
 const Container = styled.div`
     display: flex;
@@ -14,7 +27,7 @@ const Container = styled.div`
     align-items: center;
 `;
 
-const Button = styled.button`
+const OpenModalButton = styled.button`
     color: ${props => props.theme.colors.success};
     background: transparent;
     border: 0;
@@ -42,7 +55,26 @@ const Button = styled.button`
     }
 `;
 
-function SettleBet({ betId }: Props) {
+const Title = styled.h1`
+    padding-bottom: 0.8rem;
+    border-bottom: 2px solid ${props => props.theme.colors.primary};
+    margin-bottom: 2.4rem;
+    font-weight: 300;
+    letter-spacing: 2px;
+    font-size: 3.2rem;
+`;
+
+const LoaderContainer = styled.div`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+`;
+
+const FormContainer = styled.div`
+    min-width: 40rem;
+`;
+
+function SettleBet({ betId, onSuccess }: Props) {
     const [showModal, setShowModal] = React.useState(false);
     const openBtnRef = React.useRef<HTMLButtonElement | null>(null);
 
@@ -57,13 +89,13 @@ function SettleBet({ betId }: Props) {
     return (
         <Container>
             <span>Open</span>
-            <Button
+            <OpenModalButton
                 aria-label="Settle bet"
                 onClick={openModal}
                 ref={openBtnRef}
             >
                 <FaArrowCircleRight />
-            </Button>
+            </OpenModalButton>
             <Modal
                 id="settle-bet"
                 isOpen={showModal}
@@ -71,9 +103,58 @@ function SettleBet({ betId }: Props) {
                 label="Settle bet"
                 triggerRef={openBtnRef}
             >
-                <h1>settle bet</h1>
-                <p>id is {betId}</p>
-                <button>test focusable element</button>
+                <Title>Settle Bet </Title>
+                <Formik<FormValues>
+                    validationSchema={settleBetSchema}
+                    initialValues={initialValues}
+                    onSubmit={async function handleSubmit(
+                        input,
+                        { resetForm, setSubmitting }
+                    ) {
+                        let postData = { ...input, id: betId };
+
+                        let { data } = await api('/bets/settle', postData);
+
+                        if (data) {
+                            resetForm();
+                            setSubmitting(false);
+                            closeModal();
+                            onSuccess();
+                        } else {
+                            setSubmitting(false);
+                        }
+                    }}
+                >
+                    {({ isSubmitting }) => (
+                        <FormContainer>
+                            <Form>
+                                {isSubmitting ? (
+                                    <LoaderContainer>
+                                        <Loader />
+                                    </LoaderContainer>
+                                ) : (
+                                    <>
+                                        <FormTextField
+                                            placeholder="e.g. 150.75"
+                                            type="number"
+                                            name="returns"
+                                            step={0.01}
+                                            label="Returns (£)"
+                                            min={0}
+                                        />
+                                        <Button
+                                            type="submit"
+                                            variant="default"
+                                            disabled={isSubmitting}
+                                        >
+                                            Submit
+                                        </Button>
+                                    </>
+                                )}
+                            </Form>
+                        </FormContainer>
+                    )}
+                </Formik>
             </Modal>
         </Container>
     );

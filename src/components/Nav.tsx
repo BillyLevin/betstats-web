@@ -1,7 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
 import { NavLink } from 'react-router-dom';
-import { useUser } from '../context/user-context';
 import { FaSignInAlt, FaHome, FaPlus, FaTasks } from 'react-icons/fa';
 
 const StyledNav = styled.nav`
@@ -85,11 +84,9 @@ const StyledNav = styled.nav`
 `;
 
 function Nav() {
-    const user = useUser();
     return (
         <StyledNav>
             <ul>
-                <li>Hello, {user!.name}!</li>
                 <li>
                     <NavLink to="/" activeClassName="is-active" exact>
                         <FaHome /> <span>Home</span>
