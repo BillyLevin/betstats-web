@@ -77,9 +77,26 @@ const Pagination = styled.div`
     justify-content: flex-end;
     margin-top: 0.8rem;
 
-    .btn-pagination:not(:last-child) {
+    .btn-pagination:first-child {
         margin-right: 0.8rem;
     }
+
+    .btn-pagination:last-child {
+        margin-left: 0.8rem;
+    }
+`;
+
+const PaginationControls = styled.div`
+    display: flex;
+    align-items: center;
+`;
+
+const PageStatus = styled.span`
+    margin: 0 0.8rem;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 400;
 `;
 
 function Table({
@@ -101,6 +118,7 @@ function Table({
         canNextPage,
         gotoPage,
         pageCount,
+        state: { pageIndex },
     } = useTable(
         {
             columns,
@@ -172,38 +190,43 @@ function Table({
                 </tfoot>
             </CustomTable>
             <Pagination>
-                <Button
-                    className="btn-pagination"
-                    onClick={() => void gotoPage(0)}
-                    disabled={!canPreviousPage}
-                    aria-label="Go to first page"
-                >
-                    <FaAngleDoubleLeft />
-                </Button>
-                <Button
-                    className="btn-pagination"
-                    onClick={previousPage}
-                    disabled={!canPreviousPage}
-                    aria-label="Go to previous page"
-                >
-                    <FaAngleLeft />
-                </Button>
-                <Button
-                    className="btn-pagination"
-                    onClick={nextPage}
-                    disabled={!canNextPage}
-                    aria-label="Go to next page"
-                >
-                    <FaAngleRight />
-                </Button>
-                <Button
-                    className="btn-pagination"
-                    onClick={() => void gotoPage(pageCount - 1)}
-                    disabled={!canNextPage}
-                    aria-label="Go to last page"
-                >
-                    <FaAngleDoubleRight />
-                </Button>
+                <PaginationControls>
+                    <Button
+                        className="btn-pagination"
+                        onClick={() => void gotoPage(0)}
+                        disabled={!canPreviousPage}
+                        aria-label="Go to first page"
+                    >
+                        <FaAngleDoubleLeft />
+                    </Button>
+                    <Button
+                        className="btn-pagination"
+                        onClick={previousPage}
+                        disabled={!canPreviousPage}
+                        aria-label="Go to previous page"
+                    >
+                        <FaAngleLeft />
+                    </Button>
+                    <PageStatus>
+                        Page {pageIndex + 1} of {pageCount}
+                    </PageStatus>
+                    <Button
+                        className="btn-pagination"
+                        onClick={nextPage}
+                        disabled={!canNextPage}
+                        aria-label="Go to next page"
+                    >
+                        <FaAngleRight />
+                    </Button>
+                    <Button
+                        className="btn-pagination"
+                        onClick={() => void gotoPage(pageCount - 1)}
+                        disabled={!canNextPage}
+                        aria-label="Go to last page"
+                    >
+                        <FaAngleDoubleRight />
+                    </Button>
+                </PaginationControls>
             </Pagination>
         </div>
     );
