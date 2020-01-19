@@ -11,6 +11,7 @@ import {
 } from 'react-icons/fa';
 import styled from 'styled-components';
 import { Button } from './Button';
+import { Select } from './Select';
 
 type Props = {
     columns: any[];
@@ -74,7 +75,8 @@ const CustomTable = styled.table`
 
 const Pagination = styled.div`
     display: flex;
-    justify-content: flex-end;
+    justify-content: flex-start;
+    align-items: center;
     margin-top: 0.8rem;
 
     .btn-pagination:first-child {
@@ -89,6 +91,7 @@ const Pagination = styled.div`
 const PaginationControls = styled.div`
     display: flex;
     align-items: center;
+    margin-left: auto;
 `;
 
 const PageStatus = styled.span`
@@ -118,6 +121,7 @@ function Table({
         canNextPage,
         gotoPage,
         pageCount,
+        setPageSize,
         state: { pageIndex },
     } = useTable(
         {
@@ -190,6 +194,11 @@ function Table({
                 </tfoot>
             </CustomTable>
             <Pagination>
+                <Select
+                    items={pageSizeOptions}
+                    onChange={changes => void setPageSize(changes.selectedItem)}
+                    label="Items Per Page"
+                />
                 <PaginationControls>
                     <Button
                         className="btn-pagination"

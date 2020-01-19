@@ -26,6 +26,7 @@ const GlobalStyle = createGlobalStyle`
         font-family: 'Roboto', sans-serif;
         font-size: 1.6rem;
         overflow-y: scroll;
+        background-color: ${props => props.theme.colors.greyDark};
     }
 
     h1,h2,h3,h4,h5,h6 {

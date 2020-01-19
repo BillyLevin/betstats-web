@@ -91,4 +91,4 @@ function Button({ variant = 'default', children, className, ...props }: Props) {
     );
 }
 
-export { Button };
+export { Button, StyledButton };
