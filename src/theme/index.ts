@@ -6,6 +6,8 @@ const colors = {
     primaryLight: '#f5f4b0',
     primaryDark: '#b5b407',
     greyDark: '#222222',
+    greyLight: '#FBFBFB',
+    grey: '#CACFD6',
     white: '#FFFFFF',
     error: '#A40606',
     errorLight: '#F08989',
