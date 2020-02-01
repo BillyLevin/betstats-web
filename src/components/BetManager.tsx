@@ -11,6 +11,8 @@ import { PageHeading } from './PageHeading';
 import { toast, ToastContainer } from 'react-toastify';
 import { ToastContent } from './ToastContent';
 import 'react-toastify/dist/ReactToastify.css';
+import { Loader } from './Loader';
+import styled from 'styled-components';
 
 function calculateSum<T extends { [key: string]: any }>(key: string) {
     return function addToTotal(prev: number, curr: T) {
@@ -26,11 +28,22 @@ function calculateSum<T extends { [key: string]: any }>(key: string) {
 
 const defaultSort = [{ id: 'date', desc: true }];
 
+const LoaderContainer = styled.div`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+`;
+
 function BetManager() {
     const [bets, setBets] = React.useState<Bet[] | null>(null);
+    const [isFetching, setIsFetching] = React.useState(false);
 
-    async function fetchBetsData() {
+    async function fetchBets() {
+        setIsFetching(true);
         const { data } = await api<Bet[]>('/bets/all');
+        setIsFetching(false);
         setBets(data);
     }
 
@@ -82,7 +95,7 @@ function BetManager() {
                                 toast.success(
                                     <ToastContent message="Bet saved!" />
                                 );
-                                fetchBetsData();
+                                fetchBets();
                             }}
                         />
                     );
@@ -142,14 +155,39 @@ function BetManager() {
         []
     );
 
+    // prefer this to nesting ternary operators in the JSX
+    function getStatus() {
+        switch (true) {
+            case isFetching:
+                return 'loading';
+            case !!bets:
+                return 'done';
+            default:
+                return 'empty';
+        }
+    }
+
+    const status = getStatus();
+
     return (
         <Page>
             <PageHeading withDecoration>Bet Manager</PageHeading>
-            <Button onClick={fetchBetsData}>Get Bets</Button>
-            {bets && (
+            <Button
+                onClick={fetchBets}
+                disabled={status === 'loading'}
+                style={{ marginBottom: '3.2rem' }}
+            >
+                Get Bets
+            </Button>
+            {status === 'loading' && (
+                <LoaderContainer>
+                    <Loader />
+                </LoaderContainer>
+            )}
+            {status === 'done' && (
                 <Table
                     columns={tableColumns}
-                    data={bets}
+                    data={bets as Bet[]}
                     defaultSort={defaultSort}
                 />
             )}

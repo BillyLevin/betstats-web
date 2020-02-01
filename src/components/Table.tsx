@@ -102,6 +102,14 @@ const PageStatus = styled.span`
     font-weight: 400;
 `;
 
+const SortBy = styled.div`
+    &:focus {
+        background-color: ${props => props.theme.colors.primary};
+        color: ${props => props.theme.colors.greyDark};
+        outline: 0;
+    }
+`;
+
 function Table({
     columns,
     data,
@@ -131,6 +139,7 @@ function Table({
                 pageSize: pageSizeOptions[0],
                 ...(defaultSort && { sortBy: defaultSort }),
             },
+            disableMultiSort: true,
         },
         useSortBy,
         usePagination
@@ -144,11 +153,21 @@ function Table({
                         <tr {...headerGroup.getHeaderGroupProps()}>
                             {headerGroup.headers.map((column: any) => (
                                 <th
-                                    {...column.getHeaderProps(
-                                        column.getSortByToggleProps()
-                                    )}
+                                    {...column.getHeaderProps()}
+                                    aria-sort={
+                                        column.isSorted
+                                            ? column.isSortedDesc
+                                                ? 'descending'
+                                                : 'ascending'
+                                            : 'none'
+                                    }
                                 >
-                                    <div>
+                                    <SortBy
+                                        {...column.getSortByToggleProps()}
+                                        tabIndex={0}
+                                        role="button"
+                                        aria-label="Toggle Sort"
+                                    >
                                         <span>{column.render('Header')}</span>
                                         {column.isSorted ? (
                                             column.isSortedDesc ? (
@@ -159,7 +178,7 @@ function Table({
                                         ) : (
                                             <FaSort />
                                         )}
-                                    </div>
+                                    </SortBy>
                                 </th>
                             ))}
                         </tr>
