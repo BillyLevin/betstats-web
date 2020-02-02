@@ -79,12 +79,22 @@ function Modal({ id, isOpen, closeModal, label, children, triggerRef }: Props) {
     const backdropRef = React.useRef<HTMLElement | null>(null);
     const closeBtnRef = React.useRef<HTMLButtonElement | null>(null);
     const mouseDownLocation = React.useRef<EventTarget | null>(null);
+    const hasOpened = React.useRef(false);
+
+    React.useEffect(
+        function trackModalOpened() {
+            if (isOpen) {
+                hasOpened.current = true;
+            }
+        },
+        [isOpen]
+    );
 
     React.useEffect(
         function focusCloseButton() {
             if (isOpen) {
                 closeBtnRef.current?.focus();
-            } else {
+            } else if (hasOpened.current) {
                 triggerRef.current?.focus();
             }
         },

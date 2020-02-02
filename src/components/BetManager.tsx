@@ -156,6 +156,7 @@ function BetManager() {
     );
 
     // prefer this to nesting ternary operators in the JSX
+    // TODO: probably a good time to useReducer?
     function getStatus() {
         switch (true) {
             case isFetching:
