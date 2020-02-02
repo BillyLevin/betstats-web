@@ -4,6 +4,7 @@ import { Login } from './Login';
 import { Home } from './Home';
 import { CreateBet } from './CreateBet';
 import { BetManager } from './BetManager';
+import { BetStats } from './BetStats';
 
 function Routes() {
     return (
@@ -11,6 +12,7 @@ function Routes() {
             <Route exact path="/" component={Home} />
             <Route path="/create-bet" component={CreateBet} />
             <Route path="/bet-manager" component={BetManager} />
+            <Route path="/bet-stats" component={BetStats} />
             <Redirect to="/" />
         </Switch>
     );

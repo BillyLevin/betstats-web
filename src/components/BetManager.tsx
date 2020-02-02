@@ -13,6 +13,7 @@ import { ToastContent } from './ToastContent';
 import 'react-toastify/dist/ReactToastify.css';
 import { Loader } from './Loader';
 import styled from 'styled-components';
+import { useGetAllBets } from '../hooks/useGetAllBets';
 
 function calculateSum<T extends { [key: string]: any }>(key: string) {
     return function addToTotal(prev: number, curr: T) {
@@ -37,15 +38,7 @@ const LoaderContainer = styled.div`
 `;
 
 function BetManager() {
-    const [bets, setBets] = React.useState<Bet[] | null>(null);
-    const [isFetching, setIsFetching] = React.useState(false);
-
-    async function fetchBets() {
-        setIsFetching(true);
-        const { data } = await api<Bet[]>('/bets/all');
-        setIsFetching(false);
-        setBets(data);
-    }
+    const { bets, status, fetchBets } = useGetAllBets();
 
     // as per the react-table docs, this array should be memoized
     const tableColumns = React.useMemo(
@@ -152,23 +145,8 @@ function BetManager() {
                     ),
             },
         ],
-        []
+        [fetchBets]
     );
-
-    // prefer this to nesting ternary operators in the JSX
-    // TODO: probably a good time to useReducer?
-    function getStatus() {
-        switch (true) {
-            case isFetching:
-                return 'loading';
-            case !!bets:
-                return 'done';
-            default:
-                return 'empty';
-        }
-    }
-
-    const status = getStatus();
 
     return (
         <Page>
