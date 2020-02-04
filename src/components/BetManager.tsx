@@ -1,6 +1,5 @@
 import React from 'react';
 import { Page } from './Page';
-import { api } from '../utils/api';
 import { Bet } from '../types/types';
 import { Table } from './Table';
 import { formatAsCurrency, oddsToValue } from '../utils/strings';
@@ -13,7 +12,10 @@ import { ToastContent } from './ToastContent';
 import 'react-toastify/dist/ReactToastify.css';
 import { Loader } from './Loader';
 import styled from 'styled-components';
-import { useGetAllBets } from '../hooks/useGetAllBets';
+import {
+    useGetAllBets,
+    ALL_BET_STATES as STATES,
+} from '../hooks/useGetAllBets';
 
 function calculateSum<T extends { [key: string]: any }>(key: string) {
     return function addToTotal(prev: number, curr: T) {
@@ -153,17 +155,17 @@ function BetManager() {
             <PageHeading withDecoration>Bet Manager</PageHeading>
             <Button
                 onClick={fetchBets}
-                disabled={status === 'loading'}
+                disabled={status === STATES.loading}
                 style={{ marginBottom: '3.2rem' }}
             >
                 Get Bets
             </Button>
-            {status === 'loading' && (
+            {status === STATES.loading && (
                 <LoaderContainer>
                     <Loader />
                 </LoaderContainer>
             )}
-            {status === 'done' && (
+            {status === STATES.success && (
                 <Table
                     columns={tableColumns}
                     data={bets as Bet[]}

@@ -2,35 +2,53 @@ import React from 'react';
 import { api } from '../utils/api';
 import { Bet } from '../types/types';
 
-type GetAllBets = {
-    bets: Bet[] | null;
-    status: 'loading' | 'done' | 'empty';
-    fetchBets: () => Promise<void>;
+export enum ALL_BET_STATES {
+    idle = 'idle',
+    loading = 'loading',
+    success = 'success',
+    failure = 'failure',
+}
+
+const ACTIONS = {
+    FORM_SUBMIT: 'FORM_SUBMIT',
+    API_SUCCESS: 'API_SUCCESS',
+    API_FAILURE: 'API_FAILURE',
 };
 
-export function useGetAllBets(): GetAllBets {
-    const [bets, setBets] = React.useState<Bet[] | null>(null);
-    const [isFetching, setIsFetching] = React.useState(false);
+const initialState = {
+    status: ALL_BET_STATES.idle,
+    bets: null as Bet[] | null,
+};
+
+type State = typeof initialState;
+
+function stateReducer(state: State, action: any): State {
+    switch (action.type) {
+        case ACTIONS.FORM_SUBMIT:
+            return { bets: null, status: ALL_BET_STATES.loading };
+        case ACTIONS.API_SUCCESS:
+            return { bets: action.payload, status: ALL_BET_STATES.success };
+        default:
+            return initialState;
+    }
+}
+
+export function useGetAllBets() {
+    const [{ bets, status }, dispatch] = React.useReducer(
+        stateReducer,
+        initialState
+    );
 
     const fetchBets = React.useCallback(async function fetchBets() {
-        setIsFetching(true);
+        dispatch({ type: ACTIONS.FORM_SUBMIT });
         const { data } = await api<Bet[]>('/bets/all');
-        setIsFetching(false);
-        setBets(data);
-    }, []);
 
-    function getStatus() {
-        switch (true) {
-            case isFetching:
-                return 'loading';
-            case !!bets:
-                return 'done';
-            default:
-                return 'empty';
+        if (data) {
+            dispatch({ type: ACTIONS.API_SUCCESS, payload: data });
+        } else {
+            dispatch({ type: ACTIONS.API_FAILURE });
         }
-    }
-
-    const status = getStatus();
+    }, []);
 
     return { bets, status, fetchBets };
 }
