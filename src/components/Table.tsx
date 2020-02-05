@@ -18,6 +18,7 @@ type Props = {
     data: any[];
     defaultSort?: Array<{ id: string; desc: boolean }>;
     pageSizeOptions?: number[];
+    onRowClick?: (row: any) => void;
 };
 
 const CustomTable = styled.table`
@@ -25,12 +26,20 @@ const CustomTable = styled.table`
     border-spacing: 0;
     border: 2px solid ${props => props.theme.colors.primary};
 
+    tr {
+        background-color: ${props => props.theme.colors.white};
+    }
+
     tr:nth-child(odd) {
         background-color: ${props => props.theme.colors.primaryLight};
     }
 
-    tr {
-        background-color: ${props => props.theme.colors.white};
+    tr.clickable {
+        cursor: pointer;
+
+        &:hover {
+            background-color: ${props => props.theme.colors.primary};
+        }
     }
 
     th,
@@ -115,6 +124,7 @@ function Table({
     data,
     defaultSort,
     pageSizeOptions = [10, 25, 50],
+    onRowClick,
 }: Props) {
     const {
         getTableProps,
@@ -144,6 +154,8 @@ function Table({
         useSortBy,
         usePagination
     );
+
+    const clickable = !!onRowClick;
 
     return (
         <div>
@@ -188,7 +200,20 @@ function Table({
                     {page.map((row: any) => {
                         prepareRow(row);
                         return (
-                            <tr {...row.getRowProps()}>
+                            <tr
+                                {...row.getRowProps()}
+                                onClick={() => {
+                                    if (clickable) {
+                                        onRowClick?.(row);
+                                    }
+                                }}
+                                aria-label={
+                                    clickable
+                                        ? 'Click to edit this bet'
+                                        : undefined
+                                }
+                                className={clickable ? 'clickable' : undefined}
+                            >
                                 {row.cells.map((cell: any) => {
                                     return (
                                         <td {...cell.getCellProps()}>

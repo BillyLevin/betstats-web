@@ -170,6 +170,7 @@ function BetManager() {
                     columns={tableColumns}
                     data={bets as Bet[]}
                     defaultSort={defaultSort}
+                    onRowClick={console.log}
                 />
             )}
             <ToastContainer position={toast.POSITION.BOTTOM_CENTER} />
