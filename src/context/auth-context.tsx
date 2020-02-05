@@ -14,20 +14,25 @@ type AuthState = {
 
 const AuthContext = React.createContext<AuthState | undefined>(undefined);
 
+const initialAuthState = {
+    hasChecked: false,
+    user: null as User | null,
+};
+
 function AuthProvider(props: any) {
-    const [hasChecked, setHasChecked] = React.useState(false);
-    const [user, setUser] = React.useState<User | null>(null);
+    // states are combined into one because we always set them at the same time
+    const [authState, setAuthState] = React.useState(initialAuthState);
+
+    const { hasChecked, user } = authState;
 
     React.useLayoutEffect(() => {
         async function getUser() {
             const { data } = await api<AuthState>('/auth/me');
 
             if (data && data.user) {
-                setHasChecked(true);
-                setUser(data.user);
+                setAuthState({ hasChecked: true, user: data.user });
             } else {
-                setHasChecked(true);
-                setUser(null);
+                setAuthState({ hasChecked: true, user: null });
             }
         }
         getUser();
