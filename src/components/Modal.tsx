@@ -38,6 +38,7 @@ const ModalContainer = styled.div`
     transform: translate(-50%, -50%);
     border-radius: 3px;
     color: ${props => props.theme.colors.primary};
+    border: 2px solid ${props => props.theme.colors.primary};
 `;
 
 const Close = styled.button`
@@ -54,8 +55,7 @@ const Close = styled.button`
     align-items: center;
     transition: all 0.3s;
     color: ${props => props.theme.colors.white};
-    border: 2px solid transparent;
-    outline: 0;
+    outline: 2px solid transparent;
 
     svg {
         width: 2rem;
@@ -70,7 +70,7 @@ const Close = styled.button`
 
     &:focus,
     &:active {
-        border: 2px solid ${props => props.theme.colors.primary};
+        outline: 2px solid ${props => props.theme.colors.primary};
     }
 `;
 

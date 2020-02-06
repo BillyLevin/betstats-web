@@ -103,7 +103,7 @@ function SettleBet({ betId, onSuccess }: Props) {
                 label="Settle bet"
                 triggerRef={openBtnRef}
             >
-                <Title>Settle Bet </Title>
+                <Title>Settle Bet</Title>
                 <Formik<FormValues>
                     validationSchema={settleBetSchema}
                     initialValues={initialValues}
