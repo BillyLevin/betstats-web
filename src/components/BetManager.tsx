@@ -103,7 +103,9 @@ function BetManager() {
                 Cell: ({ cell: { value } }: any) => formatAsCurrency(value),
                 Footer: (info: any) =>
                     formatAsCurrency(
-                        info.rows.reduce(calculateSum('stake'), 0)
+                        info.rows
+                            .filter((row: any) => row.original.settled)
+                            .reduce(calculateSum('stake'), 0)
                     ),
             },
             {
