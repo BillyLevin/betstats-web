@@ -12,6 +12,7 @@ import {
 import styled from 'styled-components';
 import { Button } from './Button';
 import { Select } from './Select';
+import { generateKeyDownHandler } from '../utils/events';
 
 type Props = {
     columns: any[];
@@ -37,8 +38,14 @@ const CustomTable = styled.table`
     tr.clickable {
         cursor: pointer;
 
-        &:hover {
+        &:hover,
+        &:focus,
+        &:active {
             background-color: ${props => props.theme.colors.primary};
+        }
+
+        &:focus {
+            outline: 2px solid ${props => props.theme.colors.primaryDark};
         }
     }
 
@@ -207,12 +214,23 @@ function Table({
                                         onRowClick?.(row);
                                     }
                                 }}
+                                onKeyDown={event => {
+                                    if (clickable) {
+                                        const handler = generateKeyDownHandler(
+                                            [13, 32],
+                                            () => void onRowClick?.(row)
+                                        );
+
+                                        handler(event);
+                                    }
+                                }}
                                 aria-label={
                                     clickable
                                         ? 'Click to edit this bet'
                                         : undefined
                                 }
                                 className={clickable ? 'clickable' : undefined}
+                                tabIndex={clickable ? 0 : undefined}
                             >
                                 {row.cells.map((cell: any) => {
                                     return (

@@ -3,9 +3,9 @@ import { Portal } from './Portal';
 import styled from 'styled-components';
 import { hexToRGBA } from '../utils/colors';
 import { FaTimes } from 'react-icons/fa';
-import { useKeyDown } from '../hooks/useKeyDown';
 import FocusLock from 'react-focus-lock';
 import { RemoveScroll } from 'react-remove-scroll';
+import { generateKeyDownHandler } from '../utils/events';
 
 type Props = {
     id: string;
@@ -75,11 +75,12 @@ const Close = styled.button`
 `;
 
 function Modal({ id, isOpen, closeModal, label, children, triggerRef }: Props) {
-    const handleKeyDown = useKeyDown(27, closeModal);
     const backdropRef = React.useRef<HTMLElement | null>(null);
     const closeBtnRef = React.useRef<HTMLButtonElement | null>(null);
     const mouseDownLocation = React.useRef<EventTarget | null>(null);
     const hasOpened = React.useRef(false);
+
+    const handleKeyDown = generateKeyDownHandler(27, closeModal);
 
     React.useEffect(
         function trackModalOpened() {
