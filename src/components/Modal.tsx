@@ -103,6 +103,8 @@ function Modal({ id, isOpen, closeModal, label, children, triggerRef }: Props) {
     );
 
     function handleAwayClick(event: React.MouseEvent<HTMLElement, MouseEvent>) {
+        event.stopPropagation();
+
         // only hide modal if we click the backdrop
         if (event.currentTarget === mouseDownLocation.current) {
             closeModal();

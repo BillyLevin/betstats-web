@@ -78,7 +78,8 @@ function SettleBet({ betId, onSuccess }: Props) {
     const [showModal, setShowModal] = React.useState(false);
     const openBtnRef = React.useRef<HTMLButtonElement | null>(null);
 
-    function openModal() {
+    function openModal(event: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
+        event.stopPropagation();
         setShowModal(true);
     }
 

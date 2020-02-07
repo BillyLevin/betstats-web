@@ -209,7 +209,7 @@ function Table({
                         return (
                             <tr
                                 {...row.getRowProps()}
-                                onClick={() => {
+                                onClick={e => {
                                     if (clickable) {
                                         onRowClick?.(row);
                                     }
