@@ -191,6 +191,14 @@ function Table({
                                         tabIndex={0}
                                         role="button"
                                         aria-label="Toggle Sort"
+                                        onKeyDown={event => {
+                                            const handler = generateKeyDownHandler(
+                                                [13, 32],
+                                                column.toggleSortBy
+                                            );
+
+                                            handler(event);
+                                        }}
                                     >
                                         <span>{column.render('Header')}</span>
                                         {column.isSorted ? (

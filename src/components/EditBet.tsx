@@ -9,7 +9,6 @@ type Props = {
 
 function EditBet({ betId, triggerRef, closeModalFunction }: Props) {
     const [isOpen, setIsOpen] = React.useState(false);
-    console.log(betId);
 
     React.useEffect(
         function handleBetIdChange() {

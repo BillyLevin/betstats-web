@@ -87,12 +87,19 @@ function SettleBet({ betId, onSuccess }: Props) {
         setShowModal(false);
     }
 
+    // if a keyboard user "clicks" our button, we don't want to
+    // invoke the table row keydown handler
+    function handleKeyDown(event: React.KeyboardEvent<HTMLButtonElement>) {
+        event.stopPropagation();
+    }
+
     return (
         <Container>
             <span>Open</span>
             <OpenModalButton
                 aria-label="Settle bet"
                 onClick={openModal}
+                onKeyDown={handleKeyDown}
                 ref={openBtnRef}
             >
                 <FaArrowCircleRight />
