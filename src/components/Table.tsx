@@ -19,7 +19,12 @@ type Props = {
     data: any[];
     defaultSort?: Array<{ id: string; desc: boolean }>;
     pageSizeOptions?: number[];
-    onRowClick?: (row: any) => void;
+    onRowClick?: (
+        event:
+            | React.MouseEvent<HTMLTableRowElement, MouseEvent>
+            | React.KeyboardEvent<HTMLTableRowElement>,
+        row: any
+    ) => void;
 };
 
 const CustomTable = styled.table`
@@ -209,16 +214,16 @@ function Table({
                         return (
                             <tr
                                 {...row.getRowProps()}
-                                onClick={e => {
+                                onClick={event => {
                                     if (clickable) {
-                                        onRowClick?.(row);
+                                        onRowClick?.(event, row);
                                     }
                                 }}
                                 onKeyDown={event => {
                                     if (clickable) {
                                         const handler = generateKeyDownHandler(
                                             [13, 32],
-                                            () => void onRowClick?.(row)
+                                            () => void onRowClick?.(event, row)
                                         );
 
                                         handler(event);

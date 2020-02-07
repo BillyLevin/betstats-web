@@ -13,7 +13,7 @@ type Props = {
     closeModal: () => void;
     label: string;
     children: React.ReactNode;
-    triggerRef: React.MutableRefObject<HTMLButtonElement | null>;
+    triggerRef: React.MutableRefObject<HTMLElement | null>;
 };
 
 const Backdrop = styled.aside`

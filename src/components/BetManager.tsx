@@ -16,6 +16,7 @@ import {
     useGetAllBets,
     ALL_BET_STATES as STATES,
 } from '../hooks/useGetAllBets';
+import { EditBet } from './EditBet';
 
 function calculateSum<T extends { [key: string]: any }>(key: string) {
     return function addToTotal(prev: number, curr: T) {
@@ -41,6 +42,22 @@ const LoaderContainer = styled.div`
 
 function BetManager() {
     const { bets, status, fetchBets } = useGetAllBets();
+    const [betId, setBetId] = React.useState<string | null>(null);
+    const triggerRowRef = React.useRef<HTMLTableRowElement | null>(null);
+
+    function handleRowClick(
+        event:
+            | React.MouseEvent<HTMLTableRowElement, MouseEvent>
+            | React.KeyboardEvent<HTMLTableRowElement>,
+        row: any
+    ) {
+        triggerRowRef.current = event.currentTarget;
+        setBetId(row.original._id);
+    }
+
+    function closeEditBetModal() {
+        setBetId(null);
+    }
 
     // as per the react-table docs, this array should be memoized
     const tableColumns = React.useMemo(
@@ -172,9 +189,14 @@ function BetManager() {
                     columns={tableColumns}
                     data={bets as Bet[]}
                     defaultSort={defaultSort}
-                    onRowClick={console.log}
+                    onRowClick={handleRowClick}
                 />
             )}
+            <EditBet
+                betId={betId}
+                triggerRef={triggerRowRef}
+                closeModalFunction={closeEditBetModal}
+            />
             <ToastContainer position={toast.POSITION.BOTTOM_CENTER} />
         </Page>
     );
