@@ -1,6 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
 
+// source: https://loading.io/css/
+
 const LoadingSpinner = styled.div`
     display: inline-block;
     position: relative;

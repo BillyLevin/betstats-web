@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { hexToRGBA } from '../utils/colors';
 
 type ExtraProps = {
-    variant?: 'default' | 'unfilled' | 'success';
+    variant?: 'default' | 'unfilled' | 'success' | 'danger';
     children: React.ReactNode;
 };
 
@@ -70,6 +70,24 @@ const StyledButton = styled.button`
         }
     }
 
+    &.btn-danger {
+        border-color: transparent;
+        color: ${props => props.theme.colors.white};
+        background-color: ${props => props.theme.colors.error};
+
+        &:hover:not([disabled]),
+        &:focus:not([disabled]),
+        &:active:not([disabled]) {
+            background-color: ${props => props.theme.colors.errorDark};
+            color: ${props => props.theme.colors.white};
+        }
+
+        &:focus:not([disabled]) {
+            box-shadow: 0 0 0 2px
+                ${props => hexToRGBA(props.theme.colors.errorDark, 0.7)};
+        }
+    }
+
     &:focus {
         box-shadow: 0 0 0 2px
             ${props => hexToRGBA(props.theme.colors.primaryDark, 0.8)};
@@ -81,10 +99,17 @@ const StyledButton = styled.button`
     }
 `;
 
-function Button({ variant = 'default', children, className, ...props }: Props) {
+function Button({
+    variant = 'default',
+    type = 'button',
+    children,
+    className,
+    ...props
+}: Props) {
     return (
         <StyledButton
             {...props}
+            type={type}
             className={`btn-${variant} ${className || ''}`.trim()}
         >
             {children}

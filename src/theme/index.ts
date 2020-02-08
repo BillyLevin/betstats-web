@@ -11,6 +11,7 @@ const colors = {
     white: '#FFFFFF',
     error: '#A40606',
     errorLight: '#F08989',
+    errorDark: '#5e0303',
     successDark: '#55663D',
     successLight: '#ceebab',
     success: '#1c9903',

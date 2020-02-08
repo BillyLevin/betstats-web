@@ -9,6 +9,7 @@ import { api } from '../utils/api';
 import { FormTextField } from './FormTextField';
 import { Button } from './Button';
 import { Loader } from './Loader';
+import { ModalTitle } from './ModalTitle';
 
 type Props = {
     betId: string;
@@ -53,15 +54,6 @@ const OpenModalButton = styled.button`
         width: 1.4rem;
         height: auto;
     }
-`;
-
-const Title = styled.h1`
-    padding-bottom: 0.8rem;
-    border-bottom: 2px solid ${props => props.theme.colors.primary};
-    margin-bottom: 2.4rem;
-    font-weight: 300;
-    letter-spacing: 2px;
-    font-size: 3.2rem;
 `;
 
 const LoaderContainer = styled.div`
@@ -111,7 +103,7 @@ function SettleBet({ betId, onSuccess }: Props) {
                 label="Settle bet"
                 triggerRef={openBtnRef}
             >
-                <Title>Settle Bet</Title>
+                <ModalTitle>Settle Bet</ModalTitle>
                 <Formik<FormValues>
                     validationSchema={settleBetSchema}
                     initialValues={initialValues}
