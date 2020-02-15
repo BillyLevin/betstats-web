@@ -17,7 +17,10 @@ import {
     ALL_BET_STATES as STATES,
 } from '../hooks/useGetAllBets';
 import { EditBet } from './EditBet';
+import { api } from '../utils/api';
 
+// returns a function that can be passed in as a callback to Array.prototype.reduce
+// will add up all the values on an object with the provided property name
 function calculateSum<T extends { [key: string]: any }>(key: string) {
     return function addToTotal(prev: number, curr: T) {
         let num = Number(curr.values[key]);
@@ -55,9 +58,39 @@ function BetManager() {
         setBetId(row.original._id);
     }
 
-    function closeEditBetModal() {
+    const closeEditBetModal = React.useCallback(function closeModal() {
         setBetId(null);
-    }
+    }, []);
+
+    const handleEditBetSuccess = React.useCallback(
+        function handleSuccess() {
+            closeEditBetModal();
+            toast.success(<ToastContent message="Bet updated!" />);
+            fetchBets();
+        },
+        [closeEditBetModal, fetchBets]
+    );
+
+    const handleEditBetCancel = React.useCallback(
+        function handleCancel() {
+            closeEditBetModal();
+        },
+        [closeEditBetModal]
+    );
+
+    const handleEditBetDelete = React.useCallback(
+        async function handleDelete() {
+            if (betId) {
+                const { data } = await api('/bets/delete', { id: betId });
+                if (data) {
+                    closeEditBetModal();
+                    fetchBets();
+                    toast.success(<ToastContent message="Bet deleted!" />);
+                }
+            }
+        },
+        [betId, closeEditBetModal, fetchBets]
+    );
 
     // as per the react-table docs, this array should be memoized
     const tableColumns = React.useMemo(
@@ -196,6 +229,9 @@ function BetManager() {
                 betId={betId}
                 triggerRef={triggerRowRef}
                 closeModalFunction={closeEditBetModal}
+                onSuccess={handleEditBetSuccess}
+                onCancel={handleEditBetCancel}
+                onDelete={handleEditBetDelete}
             />
             <ToastContainer position={toast.POSITION.BOTTOM_CENTER} />
         </Page>

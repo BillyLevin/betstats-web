@@ -224,7 +224,7 @@ function Table({
                                 {...row.getRowProps()}
                                 onClick={event => {
                                     if (clickable) {
-                                        onRowClick?.(event, row);
+                                        onRowClick!(event, row);
                                     }
                                 }}
                                 onKeyDown={event => {

@@ -35,10 +35,16 @@ type FormValues = typeof defaultValues;
 type Props = {
     successFunction?: () => void;
     cancelFunction?: () => void;
+    deleteFunction?: () => void;
     betData?: Bet;
 };
 
-function BetForm({ successFunction, betData, cancelFunction }: Props) {
+function BetForm({
+    successFunction,
+    betData,
+    cancelFunction,
+    deleteFunction,
+}: Props) {
     const mode = betData ? 'edit' : 'create';
 
     let initialValues: FormValues = { ...defaultValues };
@@ -54,12 +60,6 @@ function BetForm({ successFunction, betData, cancelFunction }: Props) {
             returns: returns ?? 0,
             date,
         };
-    }
-
-    async function deleteBet() {
-        if (betData) {
-            await api('/bets/delete', { id: betData._id });
-        }
     }
 
     return (
@@ -151,7 +151,10 @@ function BetForm({ successFunction, betData, cancelFunction }: Props) {
                         <>
                             <ButtonsContainer>
                                 <Button type="submit">Save</Button>
-                                <Button variant="danger" onClick={deleteBet}>
+                                <Button
+                                    variant="danger"
+                                    onClick={deleteFunction}
+                                >
                                     Delete Bet
                                 </Button>
                                 <Button

@@ -2,7 +2,6 @@ import React from 'react';
 import { Modal } from './Modal';
 import { api } from '../utils/api';
 import { Bet } from '../types/types';
-import { Loader } from './Loader';
 import styled from 'styled-components';
 import { BetForm } from './BetForm';
 import { ModalTitle } from './ModalTitle';
@@ -18,21 +17,20 @@ const Container = styled.div`
 type Props = {
     betId: string | null;
     triggerRef: React.MutableRefObject<HTMLTableRowElement | null>;
+    onSuccess: () => void;
+    onCancel: () => void;
+    onDelete: () => void;
     closeModalFunction: () => void;
 };
 
-enum STATES {
-    idle = 'idle',
-    loading = 'loading',
-    success = 'success',
-    failure = 'failure',
-}
-
-const initialState = {
-    status: 'idle',
-};
-
-function EditBet({ betId, triggerRef, closeModalFunction }: Props) {
+function EditBet({
+    betId,
+    triggerRef,
+    onSuccess,
+    onCancel,
+    onDelete,
+    closeModalFunction,
+}: Props) {
     const [isOpen, setIsOpen] = React.useState(false);
     const [betData, setBetData] = React.useState<Bet | null>(null);
 
@@ -61,7 +59,9 @@ function EditBet({ betId, triggerRef, closeModalFunction }: Props) {
                 {betData && (
                     <BetForm
                         betData={betData}
-                        cancelFunction={closeModalFunction}
+                        deleteFunction={onDelete}
+                        cancelFunction={onCancel}
+                        successFunction={onSuccess}
                     />
                 )}
             </Container>
