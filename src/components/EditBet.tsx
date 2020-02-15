@@ -4,7 +4,7 @@ import { api } from '../utils/api';
 import { Bet } from '../types/types';
 import styled from 'styled-components';
 import { BetForm } from './BetForm';
-import { ModalTitle } from './ModalTitle';
+import { Subtitle } from './Subtitle';
 
 const Container = styled.div`
     display: flex;
@@ -55,7 +55,7 @@ function EditBet({
             closeModal={closeModalFunction}
         >
             <Container>
-                <ModalTitle>Edit Bet</ModalTitle>
+                <Subtitle>Edit Bet</Subtitle>
                 {betData && (
                     <BetForm
                         betData={betData}

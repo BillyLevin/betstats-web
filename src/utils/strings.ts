@@ -3,6 +3,9 @@ export function capitalizeFirstLetter(str: string) {
 }
 
 export function formatAsCurrency(rawNumber: number) {
+    if (rawNumber < 0) {
+        return `-£${Math.abs(rawNumber).toFixed(2)}`;
+    }
     return `£${rawNumber.toFixed(2)}`;
 }
 

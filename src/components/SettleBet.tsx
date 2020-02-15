@@ -9,7 +9,7 @@ import { api } from '../utils/api';
 import { FormTextField } from './FormTextField';
 import { Button } from './Button';
 import { Loader } from './Loader';
-import { ModalTitle } from './ModalTitle';
+import { Subtitle } from './Subtitle';
 
 type Props = {
     betId: string;
@@ -103,7 +103,7 @@ function SettleBet({ betId, onSuccess }: Props) {
                 label="Settle bet"
                 triggerRef={openBtnRef}
             >
-                <ModalTitle>Settle Bet</ModalTitle>
+                <Subtitle>Settle Bet</Subtitle>
                 <Formik<FormValues>
                     validationSchema={settleBetSchema}
                     initialValues={initialValues}

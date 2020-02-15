@@ -67,7 +67,7 @@ function PageHeading({ children, withDecoration = false, ...props }: Props) {
             <H1 {...props}>{children}</H1>
             {withDecoration && (
                 <Decoration>
-                    <span>
+                    <span aria-hidden="true">
                         <FaHorseHead />
                     </span>
                 </Decoration>

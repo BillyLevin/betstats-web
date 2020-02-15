@@ -2,6 +2,7 @@ import React from 'react';
 import { useSelect, UseSelectState } from 'downshift';
 import styled from 'styled-components';
 import { StyledButton } from './Button';
+import { hexToRGBA } from '../utils/colors';
 
 type Props = {
     items: number[];
@@ -24,6 +25,12 @@ const ItemList = styled.ul`
     width: 100%;
     max-height: 20rem;
     overflow-y: auto;
+
+    &:focus {
+        outline: 0;
+        box-shadow: 0 0 0 2px
+            ${props => hexToRGBA(props.theme.colors.primaryDark, 0.8)};
+    }
 `;
 
 const Item = styled.li<{ highlighted: boolean }>`

@@ -8,12 +8,13 @@ const Title = styled.h1`
     font-weight: 300;
     letter-spacing: 2px;
     font-size: 3.2rem;
+    color: ${props => props.theme.colors.primary};
 `;
 
 type Props = React.PropsWithoutRef<JSX.IntrinsicElements['h1']>;
 
-function ModalTitle({ children, ...props }: Props) {
+function Subtitle({ children, ...props }: Props) {
     return <Title {...props}>{children}</Title>;
 }
 
-export { ModalTitle };
+export { Subtitle };

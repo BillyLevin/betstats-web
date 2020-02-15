@@ -3,7 +3,7 @@ import { Page } from './Page';
 import { Bet } from '../types/types';
 import { Table } from './Table';
 import { formatAsCurrency, oddsToValue } from '../utils/strings';
-import { americaniseDate } from '../utils/date';
+import { sortByDateAsc } from '../utils/date';
 import { Button } from './Button';
 import { SettleBet } from './SettleBet';
 import { PageHeading } from './PageHeading';
@@ -102,10 +102,7 @@ function BetManager() {
                     const date1: string = bet1.original.date;
                     const date2: string = bet2.original.date;
 
-                    return (
-                        Date.parse(americaniseDate(date1)) -
-                        Date.parse(americaniseDate(date2))
-                    );
+                    return sortByDateAsc(date1, date2);
                 },
             },
             { Header: 'Bet', accessor: 'bet' },
