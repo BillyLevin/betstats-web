@@ -132,14 +132,23 @@ function ProfitOverview() {
         scales: {
             xAxes: [
                 {
+                    type: 'time',
+                    distribution: 'linear',
+                    time: {
+                        parser: 'DD/MM/YYYY',
+                        unit: 'week',
+                    },
                     ticks: {
                         fontColor: theme.colors.primary,
                         autoSkip: true,
                         maxTicksLimit: 10,
-                        callback: prettifyDate,
                     },
                     gridLines: {
                         color: hexToRGBA(theme.colors.primaryLight, 0.2),
+                        zeroLineColor: hexToRGBA(
+                            theme.colors.primaryLight,
+                            0.2
+                        ),
                     },
                 },
             ],
