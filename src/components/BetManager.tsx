@@ -10,14 +10,10 @@ import { PageHeading } from './PageHeading';
 import { toast, ToastContainer } from 'react-toastify';
 import { ToastContent } from './ToastContent';
 import 'react-toastify/dist/ReactToastify.css';
-import { Loader } from './Loader';
-import styled from 'styled-components';
-import {
-    useGetAllBets,
-    ALL_BET_STATES as STATES,
-} from '../hooks/useGetAllBets';
+import { useGetBets, ALL_BET_STATES as STATES } from '../hooks/useGetBets';
 import { EditBet } from './EditBet';
 import { api } from '../utils/api';
+import { ContainedLoader } from './ContainedLoader';
 
 // returns a function that can be passed in as a callback to Array.prototype.reduce
 // will add up all the values on an object with the provided property name
@@ -35,16 +31,8 @@ function calculateSum<T extends { [key: string]: any }>(key: string) {
 
 const defaultSort = [{ id: 'date', desc: true }];
 
-const LoaderContainer = styled.div`
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    height: 100%;
-`;
-
 function BetManager() {
-    const { bets, status, fetchBets } = useGetAllBets();
+    const { bets, status, fetchBets } = useGetBets();
     const [betId, setBetId] = React.useState<string | null>(null);
     const triggerRowRef = React.useRef<HTMLTableRowElement | null>(null);
 
@@ -209,11 +197,7 @@ function BetManager() {
             >
                 Get Bets
             </Button>
-            {status === STATES.loading && (
-                <LoaderContainer>
-                    <Loader />
-                </LoaderContainer>
-            )}
+            {status === STATES.loading && <ContainedLoader />}
             {status === STATES.success && (
                 <Table
                     columns={tableColumns}

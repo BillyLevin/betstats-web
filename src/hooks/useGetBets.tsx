@@ -33,22 +33,36 @@ function stateReducer(state: State, action: any): State {
     }
 }
 
-export function useGetAllBets() {
+export function useGetBets(endpoint?: 'all' | 'top5') {
     const [{ bets, status }, dispatch] = React.useReducer(
         stateReducer,
         initialState
     );
 
-    const fetchBets = React.useCallback(async function fetchBets() {
-        dispatch({ type: ACTIONS.FORM_SUBMIT });
-        const { data } = await api<Bet[]>('/bets/all');
+    let url = '/bets/all';
 
-        if (data) {
-            dispatch({ type: ACTIONS.API_SUCCESS, payload: data });
-        } else {
-            dispatch({ type: ACTIONS.API_FAILURE });
-        }
-    }, []);
+    switch (endpoint) {
+        case 'all':
+            url = '/bets/all';
+            break;
+        case 'top5':
+            url = '/bets/top5';
+            break;
+    }
+
+    const fetchBets = React.useCallback(
+        async function fetchBets() {
+            dispatch({ type: ACTIONS.FORM_SUBMIT });
+            const { data } = await api<Bet[]>(url);
+
+            if (data) {
+                dispatch({ type: ACTIONS.API_SUCCESS, payload: data });
+            } else {
+                dispatch({ type: ACTIONS.API_FAILURE });
+            }
+        },
+        [url]
+    );
 
     return { bets, status, fetchBets };
 }

@@ -1,23 +1,21 @@
 import React from 'react';
 import { Subtitle } from './Subtitle';
 import { sortByDateAsc, prettifyDate } from '../utils/date';
-import {
-    useGetAllBets,
-    ALL_BET_STATES as STATES,
-} from '../hooks/useGetAllBets';
+import { useGetBets, ALL_BET_STATES as STATES } from '../hooks/useGetBets';
 import { theme } from '../theme';
 import { noop } from '../utils/general';
 import { hexToRGBA } from '../utils/colors';
 import { formatAsCurrency } from '../utils/strings';
 import { Line } from 'react-chartjs-2';
 import styled from 'styled-components';
-import { Loader } from './Loader';
+import { ContainedLoader } from './ContainedLoader';
 
 const SectionContainer = styled.article`
     display: flex;
     align-items: flex-start;
     flex-direction: column;
     width: 100%;
+    margin-bottom: 3.2rem;
 `;
 
 const ChartContainer = styled.div`
@@ -25,16 +23,9 @@ const ChartContainer = styled.div`
     height: 50rem;
 `;
 
-const LoaderContainer = styled.div`
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    height: 100%;
-`;
-
 const MinMaxContainer = styled.section`
     display: flex;
+    margin-bottom: 1.6rem;
 
     p {
         padding: 1.6rem;
@@ -47,7 +38,7 @@ const MinMaxContainer = styled.section`
 `;
 
 function ProfitOverview() {
-    const { bets, status, fetchBets } = useGetAllBets();
+    const { bets, status, fetchBets } = useGetBets();
     const [{ minProfit, maxProfit }, setMinMaxProfit] = React.useState({
         minProfit: 0,
         maxProfit: 0,
@@ -144,7 +135,7 @@ function ProfitOverview() {
                     ticks: {
                         fontColor: theme.colors.primary,
                         autoSkip: true,
-                        maxTicksLimit: 7,
+                        maxTicksLimit: 10,
                         callback: prettifyDate,
                     },
                     gridLines: {
@@ -188,19 +179,17 @@ function ProfitOverview() {
     return (
         <SectionContainer>
             <Subtitle>Profit Overview</Subtitle>
-            {status === STATES.loading && (
-                <LoaderContainer>
-                    <Loader />
-                </LoaderContainer>
-            )}
+            {status === STATES.loading && <ContainedLoader />}
             {status === STATES.success && (
-                <ChartContainer>
+                <>
                     <MinMaxContainer>
                         <p>Highest: {formatAsCurrency(maxProfit)}</p>
                         <p>Lowest: {formatAsCurrency(minProfit)}</p>
                     </MinMaxContainer>
-                    <Line data={data} options={options} />
-                </ChartContainer>
+                    <ChartContainer>
+                        <Line data={data} options={options} />
+                    </ChartContainer>
+                </>
             )}
         </SectionContainer>
     );
