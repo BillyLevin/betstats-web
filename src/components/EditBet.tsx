@@ -36,12 +36,11 @@ function EditBet({
 
     React.useEffect(() => {
         async function handleBetChange() {
+            setIsOpen(Boolean(betId));
             if (betId) {
                 const { data } = await api('/bets/get', { id: betId });
                 setBetData(data);
             }
-
-            setIsOpen(Boolean(betId));
         }
         handleBetChange();
     }, [betId]);

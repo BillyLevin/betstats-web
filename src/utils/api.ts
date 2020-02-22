@@ -1,6 +1,6 @@
 export const API_URL =
     process.env.NODE_ENV === 'production'
-        ? 'productionurlgoeshere'
+        ? 'http://localhost:4000'
         : 'http://localhost:4000';
 
 async function api<T = any>(endpoint: string, body?: unknown) {

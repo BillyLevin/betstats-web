@@ -131,7 +131,7 @@ const SortBy = styled.div`
     }
 `;
 
-function Table({
+const Table = React.memo(function Table({
     columns,
     data,
     defaultSort,
@@ -314,6 +314,6 @@ function Table({
             </Pagination>
         </div>
     );
-}
+});
 
 export { Table };

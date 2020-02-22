@@ -36,7 +36,7 @@ function BetManager() {
     const [betId, setBetId] = React.useState<string | null>(null);
     const triggerRowRef = React.useRef<HTMLTableRowElement | null>(null);
 
-    function handleRowClick(
+    const handleRowClick = React.useCallback(function handleRowClick(
         event:
             | React.MouseEvent<HTMLTableRowElement, MouseEvent>
             | React.KeyboardEvent<HTMLTableRowElement>,
@@ -44,7 +44,8 @@ function BetManager() {
     ) {
         triggerRowRef.current = event.currentTarget;
         setBetId(row.original._id);
-    }
+    },
+    []);
 
     const closeEditBetModal = React.useCallback(function closeModal() {
         setBetId(null);
@@ -199,21 +200,24 @@ function BetManager() {
             </Button>
             {status === STATES.loading && <ContainedLoader />}
             {status === STATES.success && (
-                <Table
-                    columns={tableColumns}
-                    data={bets as Bet[]}
-                    defaultSort={defaultSort}
-                    onRowClick={handleRowClick}
-                />
+                <>
+                    <Table
+                        columns={tableColumns}
+                        data={bets as Bet[]}
+                        defaultSort={defaultSort}
+                        onRowClick={handleRowClick}
+                    />
+                    <EditBet
+                        betId={betId}
+                        triggerRef={triggerRowRef}
+                        closeModalFunction={closeEditBetModal}
+                        onSuccess={handleEditBetSuccess}
+                        onCancel={handleEditBetCancel}
+                        onDelete={handleEditBetDelete}
+                    />
+                </>
             )}
-            <EditBet
-                betId={betId}
-                triggerRef={triggerRowRef}
-                closeModalFunction={closeEditBetModal}
-                onSuccess={handleEditBetSuccess}
-                onCancel={handleEditBetCancel}
-                onDelete={handleEditBetDelete}
-            />
+
             <ToastContainer position={toast.POSITION.BOTTOM_CENTER} />
         </Page>
     );
