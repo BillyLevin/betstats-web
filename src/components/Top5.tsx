@@ -1,15 +1,21 @@
 import React from 'react';
-import { useGetBets, ALL_BET_STATES as STATES } from '../hooks/useGetBets';
 import { Subtitle } from './Subtitle';
 import styled from 'styled-components';
 import { ContainedLoader } from './ContainedLoader';
 import { Bet } from '../types/types';
 import { formatAsCurrency } from '../utils/strings';
+import { useGetTop5Bets, STATES } from '../hooks/useGetTop5Bets';
 
 const SectionContainer = styled.article`
     display: flex;
-    align-items: flex-start;
+    align-items: center;
     flex-direction: column;
+    width: 100%;
+`;
+
+const ListContainer = styled.div`
+    display: flex;
+    justify-content: space-evenly;
     width: 100%;
 `;
 
@@ -66,7 +72,7 @@ function Top5List({ bets }: { bets: Bet[] }) {
 }
 
 function Top5() {
-    const { bets, status, fetchBets } = useGetBets('top5');
+    const { bets, status, fetchBets } = useGetTop5Bets();
 
     React.useEffect(() => {
         fetchBets();
@@ -74,9 +80,19 @@ function Top5() {
 
     return (
         <SectionContainer>
-            <Subtitle>Top 5 Bets</Subtitle>
             {status === STATES.loading && <ContainedLoader />}
-            {status === STATES.success && <Top5List bets={bets!} />}
+            {status === STATES.success && (
+                <ListContainer>
+                    <div>
+                        <Subtitle>Top 5 Winners</Subtitle>
+                        <Top5List bets={bets?.profit ?? []} />
+                    </div>
+                    <div>
+                        <Subtitle>Top 5 Longshots</Subtitle>
+                        <Top5List bets={bets?.longshots ?? []} />
+                    </div>
+                </ListContainer>
+            )}
         </SectionContainer>
     );
 }

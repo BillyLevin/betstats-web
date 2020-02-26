@@ -1,7 +1,7 @@
 import React from 'react';
 import { Subtitle } from './Subtitle';
 import { sortByDateAsc, prettifyDate } from '../utils/date';
-import { useGetBets, ALL_BET_STATES as STATES } from '../hooks/useGetBets';
+import { useGetAllBets, STATES } from '../hooks/useGetAllBets';
 import { theme } from '../theme';
 import { noop } from '../utils/general';
 import { hexToRGBA } from '../utils/colors';
@@ -38,7 +38,7 @@ const MinMaxContainer = styled.section`
 `;
 
 function ProfitOverview() {
-    const { bets, status, fetchBets } = useGetBets();
+    const { bets, status, fetchBets } = useGetAllBets();
     const [{ minProfit, maxProfit }, setMinMaxProfit] = React.useState({
         minProfit: 0,
         maxProfit: 0,

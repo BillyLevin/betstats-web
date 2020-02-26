@@ -10,7 +10,7 @@ import { PageHeading } from './PageHeading';
 import { toast, ToastContainer } from 'react-toastify';
 import { ToastContent } from './ToastContent';
 import 'react-toastify/dist/ReactToastify.css';
-import { useGetBets, ALL_BET_STATES as STATES } from '../hooks/useGetBets';
+import { useGetAllBets, STATES } from '../hooks/useGetAllBets';
 import { EditBet } from './EditBet';
 import { api } from '../utils/api';
 import { ContainedLoader } from './ContainedLoader';
@@ -32,7 +32,7 @@ function calculateSum<T extends { [key: string]: any }>(key: string) {
 const defaultSort = [{ id: 'date', desc: true }];
 
 function BetManager() {
-    const { bets, status, fetchBets } = useGetBets();
+    const { bets, status, fetchBets } = useGetAllBets();
     const [betId, setBetId] = React.useState<string | null>(null);
     const triggerRowRef = React.useRef<HTMLTableRowElement | null>(null);
 
@@ -93,6 +93,7 @@ function BetManager() {
 
                     return sortByDateAsc(date1, date2);
                 },
+                Footer: 'Totals:',
             },
             { Header: 'Bet', accessor: 'bet' },
             {
