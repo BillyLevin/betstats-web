@@ -5,6 +5,7 @@ import { Bet } from '../types/types';
 import styled from 'styled-components';
 import { BetForm } from './BetForm';
 import { Subtitle } from './Subtitle';
+import { ContainedLoader } from './ContainedLoader';
 
 const Container = styled.div`
     display: flex;
@@ -45,6 +46,12 @@ function EditBet({
         handleBetChange();
     }, [betId]);
 
+    React.useEffect(() => {
+        if (!isOpen) {
+            setBetData(null);
+        }
+    }, [isOpen]);
+
     return (
         <Modal
             id="edit-bet"
@@ -55,13 +62,15 @@ function EditBet({
         >
             <Container>
                 <Subtitle>Edit Bet</Subtitle>
-                {betData && (
+                {betData ? (
                     <BetForm
                         betData={betData}
                         deleteFunction={onDelete}
                         cancelFunction={onCancel}
                         successFunction={onSuccess}
                     />
+                ) : (
+                    <ContainedLoader />
                 )}
             </Container>
         </Modal>
