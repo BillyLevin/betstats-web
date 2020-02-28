@@ -13,10 +13,20 @@ const SectionContainer = styled.article`
     width: 100%;
 `;
 
-const ListContainer = styled.div`
+const ListsContainer = styled.div`
     display: flex;
     justify-content: space-evenly;
     width: 100%;
+`;
+
+const ListContainer = styled.div`
+    border: 2px solid ${props => props.theme.colors.primary};
+    border-radius: 3px;
+    padding: 1.6rem 3.2rem;
+
+    ${Subtitle} {
+        font-size: 2.4rem;
+    }
 `;
 
 const List = styled.ol`
@@ -43,11 +53,11 @@ const List = styled.ol`
         margin-right: 1.6rem;
         color: ${props => props.theme.colors.primary};
     }
+`;
 
-    li span {
-        color: ${props => props.theme.colors.primary};
-        font-weight: 600;
-    }
+const Emphasis = styled.span`
+    color: ${props => props.theme.colors.primary};
+    font-weight: 600;
 `;
 
 function Top5List({ bets }: { bets: Bet[] }) {
@@ -63,7 +73,8 @@ function Top5List({ bets }: { bets: Bet[] }) {
                 return (
                     <li key={bet._id}>
                         {bet.bet} -{' '}
-                        <span>{formatAsCurrency(profit)} profit</span>
+                        <Emphasis>{formatAsCurrency(profit)} profit</Emphasis> -{' '}
+                        <span>{bet.odds}</span>
                     </li>
                 );
             })}
@@ -82,16 +93,16 @@ function Top5() {
         <SectionContainer>
             {status === STATES.loading && <ContainedLoader />}
             {status === STATES.success && (
-                <ListContainer>
-                    <div>
+                <ListsContainer>
+                    <ListContainer>
                         <Subtitle>Top 5 Winners</Subtitle>
                         <Top5List bets={bets?.profit ?? []} />
-                    </div>
-                    <div>
+                    </ListContainer>
+                    <ListContainer>
                         <Subtitle>Top 5 Longshots</Subtitle>
                         <Top5List bets={bets?.longshots ?? []} />
-                    </div>
-                </ListContainer>
+                    </ListContainer>
+                </ListsContainer>
             )}
         </SectionContainer>
     );
