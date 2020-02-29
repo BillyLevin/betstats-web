@@ -66,7 +66,6 @@ function BetForm({
         <Formik<FormValues>
             validationSchema={createBetSchema}
             initialValues={initialValues}
-            // enableReinitialize
             onSubmit={async (input, { resetForm, setSubmitting }) => {
                 let postData: Partial<FormValues & { id: string }> = {
                     ...input,

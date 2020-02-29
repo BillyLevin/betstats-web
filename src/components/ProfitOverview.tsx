@@ -1,14 +1,13 @@
 import React from 'react';
 import { Subtitle } from './Subtitle';
 import { sortByDateAsc, prettifyDate } from '../utils/date';
-import { useGetAllBets, STATES } from '../hooks/useGetAllBets';
 import { theme } from '../theme';
 import { noop } from '../utils/general';
 import { hexToRGBA } from '../utils/colors';
 import { formatAsCurrency } from '../utils/strings';
 import { Line } from 'react-chartjs-2';
 import styled from 'styled-components';
-import { ContainedLoader } from './ContainedLoader';
+import { useBetStats } from '../context/bet-stats-context';
 
 const SectionContainer = styled.article`
     display: flex;
@@ -38,15 +37,12 @@ const MinMaxContainer = styled.section`
 `;
 
 function ProfitOverview() {
-    const { bets, status, fetchBets } = useGetAllBets();
+    const { allBets: bets } = useBetStats();
+
     const [{ minProfit, maxProfit }, setMinMaxProfit] = React.useState({
         minProfit: 0,
         maxProfit: 0,
     });
-
-    React.useEffect(() => {
-        fetchBets();
-    }, [fetchBets]);
 
     const formatData = React.useCallback(
         function formatData() {
@@ -185,11 +181,10 @@ function ProfitOverview() {
         },
     };
 
-    return (
-        <SectionContainer>
-            <Subtitle>Profit Overview</Subtitle>
-            {status === STATES.loading && <ContainedLoader />}
-            {status === STATES.success && (
+    if (bets) {
+        return (
+            <SectionContainer>
+                <Subtitle>Profit Overview</Subtitle>
                 <>
                     <MinMaxContainer>
                         <p>Highest: {formatAsCurrency(maxProfit)}</p>
@@ -199,9 +194,11 @@ function ProfitOverview() {
                         <Line data={data} options={options} />
                     </ChartContainer>
                 </>
-            )}
-        </SectionContainer>
-    );
+            </SectionContainer>
+        );
+    }
+
+    return null;
 }
 
 export { ProfitOverview };

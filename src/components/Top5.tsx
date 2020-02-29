@@ -1,10 +1,9 @@
 import React from 'react';
 import { Subtitle } from './Subtitle';
 import styled from 'styled-components';
-import { ContainedLoader } from './ContainedLoader';
 import { Bet } from '../types/types';
 import { formatAsCurrency } from '../utils/strings';
-import { useGetTop5Bets, STATES } from '../hooks/useGetTop5Bets';
+import { useBetStats } from '../context/bet-stats-context';
 
 const SectionContainer = styled.article`
     display: flex;
@@ -60,6 +59,29 @@ const Emphasis = styled.span`
     font-weight: 600;
 `;
 
+function Top5() {
+    const { top5Bets: bets } = useBetStats();
+
+    if (bets) {
+        return (
+            <SectionContainer>
+                <ListsContainer>
+                    <ListContainer>
+                        <Subtitle>Top 5 Winners</Subtitle>
+                        <Top5List bets={bets?.profit ?? []} />
+                    </ListContainer>
+                    <ListContainer>
+                        <Subtitle>Top 5 Longshots</Subtitle>
+                        <Top5List bets={bets?.longshots ?? []} />
+                    </ListContainer>
+                </ListsContainer>
+            </SectionContainer>
+        );
+    }
+
+    return null;
+}
+
 function Top5List({ bets }: { bets: Bet[] }) {
     if (!bets.length) {
         return <p>You currently have no settled bets</p>;
@@ -79,32 +101,6 @@ function Top5List({ bets }: { bets: Bet[] }) {
                 );
             })}
         </List>
-    );
-}
-
-function Top5() {
-    const { bets, status, fetchBets } = useGetTop5Bets();
-
-    React.useEffect(() => {
-        fetchBets();
-    }, [fetchBets]);
-
-    return (
-        <SectionContainer>
-            {status === STATES.loading && <ContainedLoader />}
-            {status === STATES.success && (
-                <ListsContainer>
-                    <ListContainer>
-                        <Subtitle>Top 5 Winners</Subtitle>
-                        <Top5List bets={bets?.profit ?? []} />
-                    </ListContainer>
-                    <ListContainer>
-                        <Subtitle>Top 5 Longshots</Subtitle>
-                        <Top5List bets={bets?.longshots ?? []} />
-                    </ListContainer>
-                </ListsContainer>
-            )}
-        </SectionContainer>
     );
 }
 

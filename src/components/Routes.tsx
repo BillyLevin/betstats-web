@@ -5,6 +5,7 @@ import { Home } from './Home';
 import { CreateBet } from './CreateBet';
 import { BetManager } from './BetManager';
 import { BetStats } from './BetStats';
+import { BetStatsProvider } from '../context/bet-stats-context';
 
 function Routes() {
     return (
@@ -12,7 +13,9 @@ function Routes() {
             <Route exact path="/" component={Home} />
             <Route path="/create-bet" component={CreateBet} />
             <Route path="/bet-manager" component={BetManager} />
-            <Route path="/bet-stats" component={BetStats} />
+            <BetStatsProvider>
+                <Route path="/bet-stats" component={BetStats} />
+            </BetStatsProvider>
             <Redirect to="/" />
         </Switch>
     );

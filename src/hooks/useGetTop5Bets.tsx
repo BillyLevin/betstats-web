@@ -3,7 +3,7 @@ import { api } from '../utils/api';
 import { Bet } from '../types/types';
 import { BET_ACTIONS, BET_STATES } from './utils/bets';
 
-type Top5Bets = { profit: Bet[]; longshots: Bet[] };
+export type Top5Bets = { profit: Bet[]; longshots: Bet[] };
 
 const initialState = {
     status: BET_STATES.idle,
