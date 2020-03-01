@@ -81,6 +81,13 @@ function BetManager() {
         [betId, closeEditBetModal, fetchBets]
     );
 
+    const selectedBet = React.useMemo(() => {
+        if (!betId || !bets) return null;
+
+        const currentBet = bets.find(bet => bet._id === betId);
+        return currentBet || null;
+    }, [betId, bets]);
+
     // as per the react-table docs, this array should be memoized
     const tableColumns = React.useMemo(
         () => [
@@ -209,7 +216,7 @@ function BetManager() {
                         onRowClick={handleRowClick}
                     />
                     <EditBet
-                        betId={betId}
+                        betData={selectedBet}
                         triggerRef={triggerRowRef}
                         closeModalFunction={closeEditBetModal}
                         onSuccess={handleEditBetSuccess}

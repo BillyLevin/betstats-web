@@ -1,11 +1,9 @@
 import React from 'react';
 import { Modal } from './Modal';
-import { api } from '../utils/api';
 import { Bet } from '../types/types';
 import styled from 'styled-components';
 import { BetForm } from './BetForm';
 import { Subtitle } from './Subtitle';
-import { ContainedLoader } from './ContainedLoader';
 
 const Container = styled.div`
     display: flex;
@@ -16,7 +14,7 @@ const Container = styled.div`
 `;
 
 type Props = {
-    betId: string | null;
+    betData: Bet | null;
     triggerRef: React.MutableRefObject<HTMLTableRowElement | null>;
     onSuccess: () => void;
     onCancel: () => void;
@@ -25,7 +23,7 @@ type Props = {
 };
 
 function EditBet({
-    betId,
+    betData,
     triggerRef,
     onSuccess,
     onCancel,
@@ -33,24 +31,14 @@ function EditBet({
     closeModalFunction,
 }: Props) {
     const [isOpen, setIsOpen] = React.useState(false);
-    const [betData, setBetData] = React.useState<Bet | null>(null);
 
     React.useEffect(() => {
-        async function handleBetChange() {
-            setIsOpen(Boolean(betId));
-            if (betId) {
-                const { data } = await api('/bets/get', { id: betId });
-                setBetData(data);
-            }
+        if (betData) {
+            setIsOpen(true);
+        } else {
+            setIsOpen(false);
         }
-        handleBetChange();
-    }, [betId]);
-
-    React.useEffect(() => {
-        if (!isOpen) {
-            setBetData(null);
-        }
-    }, [isOpen]);
+    }, [betData]);
 
     return (
         <Modal
@@ -62,15 +50,13 @@ function EditBet({
         >
             <Container>
                 <Subtitle>Edit Bet</Subtitle>
-                {betData ? (
+                {betData && (
                     <BetForm
                         betData={betData}
                         deleteFunction={onDelete}
                         cancelFunction={onCancel}
                         successFunction={onSuccess}
                     />
-                ) : (
-                    <ContainedLoader />
                 )}
             </Container>
         </Modal>
