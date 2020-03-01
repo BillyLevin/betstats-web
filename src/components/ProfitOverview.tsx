@@ -14,7 +14,7 @@ const SectionContainer = styled.article`
     align-items: flex-start;
     flex-direction: column;
     width: 100%;
-    margin-bottom: 3.2rem;
+    margin-bottom: 6.4rem;
 `;
 
 const ChartContainer = styled.div`

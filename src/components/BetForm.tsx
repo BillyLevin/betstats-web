@@ -7,6 +7,7 @@ import { FormCheckbox } from './FormCheckbox';
 import { Button } from './Button';
 import { Bet } from '../types/types';
 import styled from 'styled-components';
+import { ContainedLoader } from './ContainedLoader';
 
 const ButtonsContainer = styled.div`
     display: flex;
@@ -92,78 +93,84 @@ function BetForm({
         >
             {({ values, isSubmitting }) => (
                 <Form>
-                    <FormTextField
-                        placeholder="e.g. Clondaw Bisto"
-                        type="text"
-                        name="bet"
-                        label="Bet Name"
-                    />
-                    <FormCheckbox
-                        type="checkbox"
-                        name="eachWay"
-                        label="Each Way"
-                    />
-                    <FormTextField
-                        placeholder="e.g. 11/4"
-                        type="text"
-                        name="odds"
-                        label="Odds"
-                    />
-                    <FormTextField
-                        placeholder="e.g. 17.50"
-                        type="number"
-                        name="stake"
-                        step={0.01}
-                        label="Stake (£)"
-                        min={0}
-                    />
-                    <FormCheckbox
-                        type="checkbox"
-                        name="settled"
-                        label="Settled"
-                    />
-                    {values.settled === true && (
-                        <FormTextField
-                            isAnimated={mode === 'create'}
-                            placeholder="e.g. 150.75"
-                            type="number"
-                            name="returns"
-                            step={0.01}
-                            label="Returns (£)"
-                            min={0}
-                        />
-                    )}
-                    <FormTextField
-                        placeholder="DD/MM/YYYY"
-                        type="string"
-                        name="date"
-                        label="Date"
-                    />
-                    {mode === 'create' ? (
-                        <Button
-                            type="submit"
-                            variant="unfilled"
-                            disabled={isSubmitting}
-                        >
-                            Submit
-                        </Button>
+                    {isSubmitting ? (
+                        <ContainedLoader />
                     ) : (
                         <>
-                            <ButtonsContainer>
-                                <Button type="submit">Save</Button>
+                            <FormTextField
+                                placeholder="e.g. Clondaw Bisto"
+                                type="text"
+                                name="bet"
+                                label="Bet Name"
+                            />
+                            <FormCheckbox
+                                type="checkbox"
+                                name="eachWay"
+                                label="Each Way"
+                            />
+                            <FormTextField
+                                placeholder="e.g. 11/4"
+                                type="text"
+                                name="odds"
+                                label="Odds"
+                            />
+                            <FormTextField
+                                placeholder="e.g. 17.50"
+                                type="number"
+                                name="stake"
+                                step={0.01}
+                                label="Stake (£)"
+                                min={0}
+                            />
+                            <FormCheckbox
+                                type="checkbox"
+                                name="settled"
+                                label="Settled"
+                            />
+                            {values.settled === true && (
+                                <FormTextField
+                                    isAnimated={mode === 'create'}
+                                    placeholder="e.g. 150.75"
+                                    type="number"
+                                    name="returns"
+                                    step={0.01}
+                                    label="Returns (£)"
+                                    min={0}
+                                />
+                            )}
+                            <FormTextField
+                                placeholder="DD/MM/YYYY"
+                                type="string"
+                                name="date"
+                                label="Date"
+                            />
+                            {mode === 'create' ? (
                                 <Button
-                                    variant="danger"
-                                    onClick={deleteFunction}
-                                >
-                                    Delete Bet
-                                </Button>
-                                <Button
+                                    type="submit"
                                     variant="unfilled"
-                                    onClick={() => cancelFunction?.()}
+                                    disabled={isSubmitting}
                                 >
-                                    Cancel
+                                    Submit
                                 </Button>
-                            </ButtonsContainer>
+                            ) : (
+                                <>
+                                    <ButtonsContainer>
+                                        <Button type="submit">Save</Button>
+                                        <Button
+                                            variant="danger"
+                                            onClick={deleteFunction}
+                                        >
+                                            Delete Bet
+                                        </Button>
+                                        <Button
+                                            variant="unfilled"
+                                            onClick={() => cancelFunction?.()}
+                                        >
+                                            Cancel
+                                        </Button>
+                                    </ButtonsContainer>
+                                </>
+                            )}
                         </>
                     )}
                 </Form>
