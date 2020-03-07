@@ -14,6 +14,7 @@ import { useGetAllBets, STATES } from '../hooks/useGetAllBets';
 import { EditBet } from './EditBet';
 import { api } from '../utils/api';
 import { ContainedLoader } from './ContainedLoader';
+import { PageDescription } from './PageDescription';
 
 // returns a function that can be passed in as a callback to Array.prototype.reduce
 // will add up all the values on an object with the provided property name
@@ -199,6 +200,10 @@ function BetManager() {
     return (
         <Page>
             <PageHeading withDecoration>Bet Manager</PageHeading>
+            <PageDescription>
+                Here you can view, edit, settle, and delete all of your existing
+                bets. Hit the button below to view your bets!
+            </PageDescription>
             <Button
                 onClick={fetchBets}
                 disabled={status === STATES.loading}
